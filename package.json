@@ -1,0 +1,24 @@
+{
+  "name": "to-do",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
+    "server": "cd server && yarn start",
+    "client": "cd client && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cameron-poehner/to-do.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cameron-poehner/to-do/issues"
+  },
+  "homepage": "https://github.com/cameron-poehner/to-do#readme",
+  "dependencies": {
+    "if-env": "^1.0.4"
+  }
+}
