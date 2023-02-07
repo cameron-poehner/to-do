@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
-    "server": "cd server && yarn start",
+    "server": "cd server && yarn dev",
     "client": "cd client && npm start"
   },
   "repository": {
