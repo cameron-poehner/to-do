@@ -7,6 +7,15 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from './styles/styles';
 
 const App = () => {
+
+  const getData = async () => {
+    try {
+      const res = await fetch(`http://localhost:8000/todos`)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <StyledPage>
