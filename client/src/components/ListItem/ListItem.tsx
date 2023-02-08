@@ -1,10 +1,24 @@
+import Button from '../Button';
 import React from 'react';
+import { StyledListItem, StyledButtonContainer } from './styles';
 
-const ListItem = () => {
+const ListItem: React.FC<any> = (props) => {
+
+    const editTodo = () => {
+        console.log('Editing to-do');
+    }
+
+    const deleteTodo = () => {
+        console.log('deleting to-do');
+    }
     return (
-        <div>
-            <h4>Yes</h4>
-        </div>
+        <StyledListItem>
+            <p>{props.task}</p>
+            <StyledButtonContainer>
+                <Button title={"EDIT"} onClick={editTodo} />
+                <Button title={"DELETE"} onClick={deleteTodo} />
+            </StyledButtonContainer>
+        </StyledListItem>
     )
 }
 

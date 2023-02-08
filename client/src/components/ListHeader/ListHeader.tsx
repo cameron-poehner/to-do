@@ -1,8 +1,7 @@
 import React from 'react';
+import Button from '../Button';
 import {
     StyledListHeader,
-    StyledButton,
-    StyledContainer,
     StyledButtonContainer,
 } from './styles';
 
@@ -12,7 +11,6 @@ interface ListHeaderProps {
 }
 
 const ListHeader: React.FC<ListHeaderProps> = (props) => {
-    console.log('Props', props);
 
     const signOut = () => {
         console.log('You have been signed out');
@@ -24,19 +22,17 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
 
     return (
         <StyledListHeader>
-            <StyledContainer>
-                <h1>{props.listname}</h1>
-                <StyledButtonContainer>
-                    <StyledButton
-                        variant="contained"
-                        onClick={addNew}
-                    >ADD NEW</StyledButton>
-                    <StyledButton
-                        variant="contained"
-                        onClick={signOut}
-                    >SIGN OUT</StyledButton>
-                </StyledButtonContainer>
-            </StyledContainer>
+            <h1>{props.listname}</h1>
+            <StyledButtonContainer>
+                <Button
+                    onClick={addNew}
+                    title="ADD NEW"
+                />
+                <Button
+                    onClick={signOut}
+                    title="SIGN OUT"
+                />
+            </StyledButtonContainer>
         </StyledListHeader>
     )
 }
