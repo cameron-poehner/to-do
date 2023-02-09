@@ -15,5 +15,7 @@ export const StyledListHeader = styled('div')(({ theme }) => ({
 export const StyledButtonContainer = styled('div')(({ theme }) => ({
     margin: 0,
     padding: 0,
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '18%',
 }))

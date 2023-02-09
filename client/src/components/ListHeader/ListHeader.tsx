@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import Modal from '../Modal';
 import {
     StyledListHeader,
     StyledButtonContainer,
@@ -33,6 +34,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
                     title="SIGN OUT"
                 />
             </StyledButtonContainer>
+            <Modal />
         </StyledListHeader>
     )
 }

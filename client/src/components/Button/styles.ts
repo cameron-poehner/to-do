@@ -7,7 +7,7 @@ export const StyledButtonContainer = styled('div')(({ theme }) => ({
 }))
 
 export const StyledButton = styled(Button)(({ theme }) => ({
-    margin: '5px 0px 5px 15px',
+    margin: '5px 0px 5px 0px',
     backgroundColor: theme.palette.secondary.dark,
     '&:hover': {
         backgroundColor: theme.palette.secondary.light,

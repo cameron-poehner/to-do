@@ -17,7 +17,7 @@ const ListItem: React.FC<any> = (props) => {
             <StyledButtonContainer>
                 <Button title={"EDIT"} onClick={editTodo} />
                 <Button title={"DELETE"} onClick={deleteTodo} />
-            </StyledButtonContainer>
+            </StyledButtonContainer>.
         </StyledListItem>
     )
 }
