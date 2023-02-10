@@ -1,50 +1,98 @@
 import React, { useState } from 'react';
-import { StyledOverlay, StyledModal, StyledFormTitleContainer, StyledForm } from './styles';
+import {
+    StyledOverlay,
+    StyledModal,
+    StyledFormTitleContainer,
+    StyledForm,
+    StyledSlider,
+    StyledCloseButton,
+} from './styles';
 import Button from '../Button';
+import { TextField, InputLabel } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
-const Modal = () => {
-    // const [showModal, setShowModal] = useState<boolean>(false);
-    const mode: string = 'create';
-    const editMode = mode === "edit" ? true : false
+const Modal: React.FC<any> = ({ mode, setShowModal, task }) => {
+    console.log('mode', mode);
+    console.log('task', task);
+    const editMode = mode === 'edit' ? true : false
 
     const [data, setData] = useState<any>({
-        user_email: "",
-        title: "",
-        progress: "",
-        date: editMode ? "" : new Date(),
+        user_email: editMode ? task.user_email : null,
+        title: editMode ? task.title : null,
+        notes: editMode ? task.notes : null,
+        progress: editMode ? task.progress : null,
+        date: editMode ? '' : new Date(),
     })
 
-    const handleChange = (event: any) => {
-        console.log('onChange fired');
+    const postData = () => {
+        try {
+            fetch(`http://localhost:8000`);
+        } catch (err) {
+            console.error(err);
+        }
     }
+
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
+        setData((data: any) => ({
+            ...data,
+            [name]: value
+        }))
+        console.log('data', data);
+    }
+
+    const handleSubmit = (event: any) => {
+        console.log('Form Submitted');
+    }
+
+    const handleClick = (event: any) => {
+        setShowModal(false);
+    }
+
+    // const handleBlur = (event: any) => {
+    //     console.log('event', event);
+    //     setShowModal(false);
+    // }
 
     return (
         <StyledOverlay>
             <StyledModal>
                 <StyledFormTitleContainer>
                     <h3>Let's {mode} your task!</h3>
-                    <Button>X</Button>
+                    <StyledCloseButton variant='text' onClick={handleClick}><CloseIcon sx={{ color: 'black' }} /></StyledCloseButton>
                 </StyledFormTitleContainer>
-                <StyledForm>
-                    <input
+                <StyledForm onSubmit={handleSubmit}>
+                    <InputLabel htmlFor='title'></InputLabel>
+                    <TextField
                         required
-                        maxLength={30}
-                        placeholder=" Your task goes here"
-                        name="title"
-                        value={""}
+                        placeholder='Your task goes here'
+                        name='title'
+                        value={data.title}
+                        onChange={handleChange}
+                        variant='standard'
+                        id='title'
+                    />
+                    <InputLabel htmlFor='notes'>Notes</InputLabel>
+                    <TextField
+                        placeholder='notes'
+                        name='notes'
+                        value={data.notes}
+                        onChange={handleChange}
+                        variant='outlined'
+                        id='title'
+                    />
+                    <InputLabel htmlFor='progress'>Progress</InputLabel>
+                    <StyledSlider
+                        min={0}
+                        max={100}
+                        step={10}
+                        marks
+                        name='progress'
+                        id='progress'
+                        value={data.progress}
                         onChange={handleChange}
                     />
-
-                    <input
-                        required
-                        type="range"
-                        min="0"
-                        max="100"
-                        name="progress"
-                        value={""}
-                        onChange={handleChange}
-                    />
-                    <input type="submit" />
+                    <Button type='submit' title='SUBMIT' onClick={handleClick} />
                 </StyledForm>
             </StyledModal>
         </StyledOverlay>

@@ -8,7 +8,7 @@ const List: React.FC<any> = (props) => {
     return (
         <StyledList>
             <ListHeader listname={'New York Prep List'} />
-            {props?.list?.map((task: any) => <ListItem key={task.id} task={task.title} />)}
+            {props?.list?.map((task: any) => <ListItem key={task.id} task={task} />)}
         </StyledList>
     )
 };

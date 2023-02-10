@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
 import {
@@ -12,6 +12,7 @@ interface ListHeaderProps {
 }
 
 const ListHeader: React.FC<ListHeaderProps> = (props) => {
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     const signOut = () => {
         console.log('You have been signed out');
@@ -19,6 +20,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
 
     const addNew = () => {
         console.log('You have added a new to-do item');
+        setShowModal(true);
     }
 
     return (
@@ -34,7 +36,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
                     title="SIGN OUT"
                 />
             </StyledButtonContainer>
-            <Modal />
+            {showModal && <Modal mode='create' setShowModal={setShowModal} />}
         </StyledListHeader>
     )
 }

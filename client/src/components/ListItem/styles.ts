@@ -21,5 +21,6 @@ export const StyledButtonContainer = styled('div')(({ theme }) => ({
     width: '14%',
     padding: 0,
     margin: 0,
-    marginRight: 10
+    marginRight: 10,
+    zIndex: 1,
 }));

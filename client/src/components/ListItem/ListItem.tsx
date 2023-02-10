@@ -1,11 +1,14 @@
+import React, { useState } from 'react';
 import Button from '../Button';
-import React from 'react';
+import Modal from '../Modal';
 import { StyledListItem, StyledButtonContainer } from './styles';
 
 const ListItem: React.FC<any> = (props) => {
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     const editTodo = () => {
         console.log('Editing to-do');
+        setShowModal(true);
     }
 
     const deleteTodo = () => {
@@ -13,11 +16,12 @@ const ListItem: React.FC<any> = (props) => {
     }
     return (
         <StyledListItem>
-            <p>{props.task}</p>
+            <p>{props.task.title}</p>
             <StyledButtonContainer>
                 <Button title={"EDIT"} onClick={editTodo} />
                 <Button title={"DELETE"} onClick={deleteTodo} />
-            </StyledButtonContainer>.
+            </StyledButtonContainer>
+            {showModal && <Modal mode='edit' setShowModal={setShowModal} task={props.task} />}
         </StyledListItem>
     )
 }
