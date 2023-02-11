@@ -9,6 +9,7 @@ import {
 
 interface ListHeaderProps {
     listname: any;
+    getData: any;
 }
 
 const ListHeader: React.FC<ListHeaderProps> = (props) => {
@@ -36,7 +37,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
                     title="SIGN OUT"
                 />
             </StyledButtonContainer>
-            {showModal && <Modal mode='create' setShowModal={setShowModal} />}
+            {showModal && <Modal mode='create' setShowModal={setShowModal} getData={props?.getData} />}
         </StyledListHeader>
     )
 }

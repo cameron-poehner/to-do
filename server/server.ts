@@ -7,6 +7,7 @@ const dbPool = require('./db');
 const { v4: uuidv4 } = require('uuid');
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/todos/:userEmail', async (req, res) => {
     const { userEmail } = req.params;
@@ -24,13 +25,14 @@ app.post('/todos', async (req, res) => {
     const {
         user_email,
         title,
-        notes,
         progress,
         date
     } = req.body;
+    console.log('Request body', req.body);
     try {
-        dbPool.query(`Insert INTO todos(id, user_email, title, notes, progress, data) VALUES($1, $2, $3, $4, $5, $6)`,
-            [id, user_email, title, notes, progress, date])
+        const newToDo = await dbPool.query(`Insert INTO todos(id, user_email, title, progress, date) VALUES($1, $2, $3, $4, $5)`,
+            [id, user_email, title, progress, date]);
+        res.json(newToDo);
     } catch (err) {
         console.error(err);
     }

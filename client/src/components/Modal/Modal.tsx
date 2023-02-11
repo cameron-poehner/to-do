@@ -11,26 +11,48 @@ import Button from '../Button';
 import { TextField, InputLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const Modal: React.FC<any> = ({ mode, setShowModal, task }) => {
+const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
     console.log('mode', mode);
     console.log('task', task);
     const editMode = mode === 'edit' ? true : false
 
     const [data, setData] = useState<any>({
-        user_email: editMode ? task.user_email : null,
+        user_email: editMode ? task.user_email : 'cam@test.com',
         title: editMode ? task.title : null,
-        notes: editMode ? task.notes : null,
         progress: editMode ? task.progress : null,
         date: editMode ? '' : new Date(),
     })
 
-    const postData = () => {
+    const postData = async (event: any) => {
+        event.preventDefault();
         try {
-            fetch(`http://localhost:8000`);
+            const response = await fetch(`http://localhost:8000/todos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            console.log('POST Response', response);
+            getData();
+            setShowModal(false);
         } catch (err) {
             console.error(err);
         }
     }
+
+    const editData = async (event: any) => {
+        event.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            console.log('PUT Response', response);
+            setShowModal(false);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const handleChange = (event: any) => {
         const { name, value } = event.target;
@@ -49,11 +71,6 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task }) => {
         setShowModal(false);
     }
 
-    // const handleBlur = (event: any) => {
-    //     console.log('event', event);
-    //     setShowModal(false);
-    // }
-
     return (
         <StyledOverlay>
             <StyledModal>
@@ -67,18 +84,9 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task }) => {
                         required
                         placeholder='Your task goes here'
                         name='title'
-                        value={data.title}
+                        value={data.title || ''}
                         onChange={handleChange}
                         variant='standard'
-                        id='title'
-                    />
-                    <InputLabel htmlFor='notes'>Notes</InputLabel>
-                    <TextField
-                        placeholder='notes'
-                        name='notes'
-                        value={data.notes}
-                        onChange={handleChange}
-                        variant='outlined'
                         id='title'
                     />
                     <InputLabel htmlFor='progress'>Progress</InputLabel>
@@ -89,10 +97,10 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task }) => {
                         marks
                         name='progress'
                         id='progress'
-                        value={data.progress}
+                        value={data.progress || 0}
                         onChange={handleChange}
                     />
-                    <Button type='submit' title='SUBMIT' onClick={handleClick} />
+                    <Button type='submit' title='SUBMIT' onClick={editMode ? editData : postData} />
                 </StyledForm>
             </StyledModal>
         </StyledOverlay>

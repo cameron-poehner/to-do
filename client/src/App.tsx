@@ -29,7 +29,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <StyledPage>
-        <List list={tasks} />
+        <List list={tasks} getData={getData} />
       </StyledPage>
     </ThemeProvider>
   );
