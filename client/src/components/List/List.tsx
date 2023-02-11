@@ -4,11 +4,12 @@ import ListHeader from '../ListHeader';
 import ListItem from '../ListItem';
 
 const List: React.FC<any> = (props) => {
+    console.log('props', props);
 
     return (
         <StyledList>
-            <ListHeader listname={'New York Prep List'} />
-            {props?.list?.map((task: any) => <ListItem key={task.id} task={task} />)}
+            <ListHeader listname={'New York Prep List'} getData={props?.getData} />
+            {props?.list?.map((task: any) => <ListItem key={task.id} task={task} getData={props.getData} />)}
         </StyledList>
     )
 };

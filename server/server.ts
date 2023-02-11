@@ -4,8 +4,10 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT ?? 8000;
 const dbPool = require('./db');
+const { v4: uuidv4 } = require('uuid');
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/todos/:userEmail', async (req, res) => {
     const { userEmail } = req.params;
@@ -16,9 +18,37 @@ app.get('/todos/:userEmail', async (req, res) => {
     } catch (err) {
         console.error(err);
     }
+});
+
+app.post('/todos', async (req, res) => {
+    const id = uuidv4();
+    const {
+        user_email,
+        title,
+        progress,
+        date
+    } = req.body;
+    console.log('Request body', req.body);
+    try {
+        const newToDo = await dbPool.query(`Insert INTO todos(id, user_email, title, progress, date) VALUES($1, $2, $3, $4, $5)`,
+            [id, user_email, title, progress, date]);
+        res.json(newToDo);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.put('/todos/:id', async (req, res) => {
+    const { id } = req.params;
+    const { user_email, title, progress, date } = req.body;
+    try {
+        const editToDo = await dbPool.query('UPDATE todos SET user_email = $1, title = $2, progress = $3, date = $4 WHERE id = $5;',
+            [user_email, title, progress, date, id]);
+        res.json(editToDo);
+    } catch (err) {
+        console.error(err)
+    }
 })
-
-
 
 app.listen(PORT, () => {
     console.log(`Example running on port ${PORT}`);

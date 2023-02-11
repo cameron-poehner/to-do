@@ -21,7 +21,7 @@ const ListItem: React.FC<any> = (props) => {
                 <Button title={"EDIT"} onClick={editTodo} />
                 <Button title={"DELETE"} onClick={deleteTodo} />
             </StyledButtonContainer>
-            {showModal && <Modal mode='edit' setShowModal={setShowModal} task={props.task} />}
+            {showModal && <Modal mode='edit' setShowModal={setShowModal} task={props.task} getData={props.getData} />}
         </StyledListItem>
     )
 }
