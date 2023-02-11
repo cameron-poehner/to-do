@@ -20,7 +20,7 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
         user_email: editMode ? task.user_email : 'cam@test.com',
         title: editMode ? task.title : null,
         progress: editMode ? task.progress : null,
-        date: editMode ? '' : new Date(),
+        date: editMode ? task.date : new Date(),
     })
 
     const postData = async (event: any) => {
@@ -48,6 +48,7 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
                 body: JSON.stringify(data),
             });
             console.log('PUT Response', response);
+            getData();
             setShowModal(false);
         } catch (err) {
             console.error(err);

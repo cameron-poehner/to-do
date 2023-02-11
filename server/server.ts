@@ -40,10 +40,10 @@ app.post('/todos', async (req, res) => {
 
 app.put('/todos/:id', async (req, res) => {
     const { id } = req.params;
-    const { user_email, title, progress, data } = req.body;
+    const { user_email, title, progress, date } = req.body;
     try {
-        const editToDo = await pool.query('UPTE todos SET user_email = $1, title = $2, progress = $3, data = $4, id = $5;',
-            [user_email, title, progress, data]);
+        const editToDo = await dbPool.query('UPDATE todos SET user_email = $1, title = $2, progress = $3, date = $4 WHERE id = $5;',
+            [user_email, title, progress, date, id]);
         res.json(editToDo);
     } catch (err) {
         console.error(err)
