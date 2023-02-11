@@ -11,8 +11,18 @@ const ListItem: React.FC<any> = (props) => {
         setShowModal(true);
     }
 
-    const deleteTodo = () => {
+    const deleteTodo = async () => {
         console.log('deleting to-do');
+        try {
+            const response = await fetch(`http://localhost:8000/todos/${props.task.id}`, {
+                method: 'DELETE',
+            });
+            console.log('Delete Response', response);
+            props.getData();
+            setShowModal(false);
+        } catch (err) {
+            console.error(err);
+        }
     }
     return (
         <StyledListItem>

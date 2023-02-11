@@ -56,6 +56,7 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
     };
 
     const handleChange = (event: any) => {
+        event.stopPropagation();
         const { name, value } = event.target;
         setData((data: any) => ({
             ...data,
@@ -72,9 +73,13 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
         setShowModal(false);
     }
 
+    const stopProp = (event: any) => {
+        event.stopPropagation();
+    }
+
     return (
-        <StyledOverlay>
-            <StyledModal>
+        <StyledOverlay onClick={handleClick}>
+            <StyledModal onClick={stopProp}>
                 <StyledFormTitleContainer>
                     <h3>Let's {mode} your task!</h3>
                     <StyledCloseButton variant='text' onClick={handleClick}><CloseIcon sx={{ color: 'black' }} /></StyledCloseButton>
