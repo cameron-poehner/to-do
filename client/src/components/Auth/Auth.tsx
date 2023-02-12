@@ -11,7 +11,7 @@ import { InputLabel } from '@mui/material'
 import { useCookies } from 'react-cookie';
 
 const Auth = () => {
-    const [cookies, setCookie, removeCookie] = useCookies([]);
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);

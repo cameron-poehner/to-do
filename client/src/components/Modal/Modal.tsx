@@ -10,14 +10,16 @@ import {
 import Button from '../Button';
 import { TextField, InputLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useCookies } from 'react-cookie';
 
 const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
+    const [cookies, setCookie, removeCookie] = useCookies();
     console.log('mode', mode);
     console.log('task', task);
     const editMode = mode === 'edit' ? true : false
 
     const [data, setData] = useState<any>({
-        user_email: editMode ? task.user_email : 'cam@test.com',
+        user_email: editMode ? task.user_email : cookies.Email,
         title: editMode ? task.title : null,
         progress: editMode ? task.progress : null,
         date: editMode ? task.date : new Date(),
