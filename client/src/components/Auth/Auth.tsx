@@ -42,6 +42,13 @@ const Auth = () => {
         });
         const data = await response.json();
         console.log('Data', data);
+
+        if (data.detail) {
+            setError(data.detail);
+        } else {
+            setCookie('Email', data.email);
+            setCookie('AuthToken', data.token);
+        }
     }
 
     console.log('Email', email);
