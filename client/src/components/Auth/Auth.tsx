@@ -8,8 +8,10 @@ import {
 } from './styles'
 import Button from '../Button';
 import { InputLabel } from '@mui/material'
+import { useCookies } from 'react-cookie';
 
 const Auth = () => {
+    const [cookies, setCookie, removeCookie] = useCookies([]);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
@@ -48,12 +50,15 @@ const Auth = () => {
         } else {
             setCookie('Email', data.email);
             setCookie('AuthToken', data.token);
+
+            window.location.reload();
         }
     }
 
     console.log('Email', email);
     console.log('Password', password);
     console.log('Confirm Password', confirmPassword);
+    console.log('Cookies', cookies);
 
     return (
         <StyledAuthContainer>

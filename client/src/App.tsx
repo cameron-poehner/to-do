@@ -5,8 +5,10 @@ import List from './components/List';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './styles/styles';
 import Auth from './components/Auth';
+import { useCookies } from 'react-cookie';
 
 const App = () => {
+  const [cookies, setCookies, removeCookies] = useCookies([]);
   const [tasks, setTasks] = useState<any[] | null>(null);
 
   const authToken = false;

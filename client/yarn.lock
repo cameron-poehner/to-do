@@ -2076,7 +2076,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/cookie@^0.3.3":
+"@types/cookie@*", "@types/cookie@^0.3.3":
   "integrity" "sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow=="
   "resolved" "https://registry.npmjs.org/@types/cookie/-/cookie-0.3.3.tgz"
   "version" "0.3.3"
@@ -2247,6 +2247,14 @@
   "integrity" "sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw=="
   "resolved" "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.4.tgz"
   "version" "1.2.4"
+
+"@types/react-cookies@^0.1.0":
+  "integrity" "sha512-Py5k0iIVxwm0cQQSlUa1p5DJPf7EpXj/MMDs451U06HEseP/QvzdDAdE44x0hsxaelDPp8niVJWFDT3ajeRYPg=="
+  "resolved" "https://registry.npmjs.org/@types/react-cookies/-/react-cookies-0.1.0.tgz"
+  "version" "0.1.0"
+  dependencies:
+    "@types/cookie" "*"
+    "@types/express" "*"
 
 "@types/react-dom@^18.0.0":
   "integrity" "sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg=="
