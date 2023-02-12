@@ -59,8 +59,26 @@ app.delete('/todos/:id', async (req, res) => {
         console.error(err);
     }
 
-})
+});
+
+app.post('/signup', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+
+    } catch (err) {
+        console.error(err);
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Example running on port ${PORT}`);
-})
+});

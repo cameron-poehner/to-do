@@ -21,6 +21,8 @@ const Auth = () => {
         setIsLoggedIn(status);
     };
 
+
+
     const handleChange = (event: any) => {
         event.preventDefault();
         console.log('Event', event);
@@ -33,14 +35,32 @@ const Auth = () => {
             return;
         }
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`)
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        console.log('Data', data);
     }
+
+    console.log('Email', email);
+    console.log('Password', password);
+    console.log('Confirm Password', confirmPassword);
 
     return (
         <StyledAuthContainer>
             <StyledFormContainer>
                 <StyledForm>
-                    <h2 style={{ fontWeight: 400, fontFamily: 'Helvetica', letterSpacing: '1.5px', alignSelf: 'center' }}>{isLoggedIn ? 'Please log in' : 'Please sign up!'}</h2>
+                    <h2
+                        style={{
+                            fontWeight: 400,
+                            fontFamily: 'Helvetica',
+                            letterSpacing: '1.5px',
+                            alignSelf: 'center'
+                        }}>
+                        {isLoggedIn ? 'Please log in' : 'Please sign up!'}
+                    </h2>
                     <InputLabel htmlFor='email'>Email</InputLabel>
                     <StyledTextField
                         autoComplete='off'
@@ -49,7 +69,7 @@ const Auth = () => {
                         variant='standard'
                         id='email'
                         name='email'
-                        onChange={handleChange}
+                        onChange={event => (setEmail(event?.target.value))}
                     />
                     <InputLabel htmlFor='password'>Password</InputLabel>
                     <StyledTextField
@@ -58,6 +78,7 @@ const Auth = () => {
                         variant='standard'
                         id='password'
                         name='password'
+                        onChange={event => setPassword(event.target.value)}
                     />
                     {!isLoggedIn &&
                         <>
@@ -68,6 +89,7 @@ const Auth = () => {
                                 variant='standard'
                                 id='confirm-password'
                                 name='confirm-password'
+                                onChange={event => setConfirmPassword(event.target.value)}
                             />
                         </>
                     }
