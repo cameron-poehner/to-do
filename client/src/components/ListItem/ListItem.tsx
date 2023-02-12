@@ -14,7 +14,7 @@ const ListItem: React.FC<any> = (props) => {
     const deleteTodo = async () => {
         console.log('deleting to-do');
         try {
-            const response = await fetch(`http://localhost:8000/todos/${props.task.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${props.task.id}`, {
                 method: 'DELETE',
             });
             console.log('Delete Response', response);

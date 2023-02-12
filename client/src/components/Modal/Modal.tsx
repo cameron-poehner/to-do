@@ -26,7 +26,7 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
     const postData = async (event: any) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8000/todos`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/todos`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -42,7 +42,7 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
     const editData = async (event: any) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
