@@ -5,6 +5,7 @@ import {
     StyledListHeader,
     StyledButtonContainer,
 } from './styles';
+import { useCookies } from 'react-cookie';
 
 
 interface ListHeaderProps {
@@ -13,10 +14,14 @@ interface ListHeaderProps {
 }
 
 const ListHeader: React.FC<ListHeaderProps> = (props) => {
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const signOut = () => {
         console.log('You have been signed out');
+        removeCookie('Email');
+        removeCookie('AuthToken');
+        window.location.reload();
     }
 
     const addNew = () => {
