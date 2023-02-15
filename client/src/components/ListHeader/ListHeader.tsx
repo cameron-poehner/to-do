@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
 import {
@@ -6,19 +5,23 @@ import {
     StyledButtonContainer,
 } from './styles';
 import { useCookies } from 'react-cookie';
+import useStore from '../../store';
 
 
 interface ListHeaderProps {
     listname: any;
-    getData: any;
+    getData?: any;
+    task?: any;
 }
 
 const ListHeader: React.FC<ListHeaderProps> = (props) => {
+    const fetchData = useStore(state => state.fetch);
+    const showModal = useStore(state => state.showModal);
+    const setShowModal = useStore(state => state.setShowModal);
+    const setMode = useStore(state => state.setMode);
     const [cookies, setCookie, removeCookie] = useCookies();
-    const [showModal, setShowModal] = useState<boolean>(false);
 
     const signOut = () => {
-        console.log('You have been signed out');
         removeCookie('Email');
         removeCookie('AuthToken');
         window.location.reload();
@@ -26,7 +29,9 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
 
     const addNew = () => {
         console.log('You have added a new to-do item');
+        fetchData(cookies.Email);
         setShowModal(true);
+        setMode('create');
     }
 
     return (
@@ -42,7 +47,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
                     title="SIGN OUT"
                 />
             </StyledButtonContainer>
-            {showModal && <Modal mode='create' setShowModal={setShowModal} getData={props?.getData} />}
+            {showModal && <Modal task={props?.task} />}
         </StyledListHeader>
     )
 }

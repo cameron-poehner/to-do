@@ -9,6 +9,7 @@ import {
 import Button from '../Button';
 import { InputLabel } from '@mui/material'
 import { useCookies } from 'react-cookie';
+import useStore from '../../store';
 
 const Auth = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -54,11 +55,6 @@ const Auth = () => {
             window.location.reload();
         }
     }
-
-    console.log('Email', email);
-    console.log('Password', password);
-    console.log('Confirm Password', confirmPassword);
-    console.log('Cookies', cookies);
 
     return (
         <StyledAuthContainer>

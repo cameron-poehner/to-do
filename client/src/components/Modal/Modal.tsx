@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     StyledOverlay,
     StyledModal,
@@ -11,30 +11,31 @@ import Button from '../Button';
 import { TextField, InputLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useCookies } from 'react-cookie';
+import useStore from '../../store';
 
-const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
-    const [cookies, setCookie, removeCookie] = useCookies();
-    console.log('mode', mode);
-    console.log('task', task);
-    const editMode = mode === 'edit' ? true : false
+const Modal: React.FC<any> = ({ task }) => {
+    const fetchData = useStore(state => state.fetch);
+    const setShowModal = useStore(state => state.setShowModal);
+    const mode = useStore(state => state.mode);
+    const [cookies] = useCookies();
+    const editMode = mode === 'edit' ? true : false;
 
     const [data, setData] = useState<any>({
-        user_email: editMode ? task.user_email : cookies.Email,
-        title: editMode ? task.title : null,
-        progress: editMode ? task.progress : null,
-        date: editMode ? task.date : new Date(),
+        user_email: editMode ? task?.user_email : cookies?.Email,
+        title: editMode ? task?.title : null,
+        progress: editMode ? task?.progress : null,
+        date: editMode ? task?.date : new Date(),
     })
 
     const postData = async (event: any) => {
         event.preventDefault();
         try {
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/todos`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            console.log('POST Response', response);
-            getData();
+            fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -44,13 +45,12 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
     const editData = async (event: any) => {
         event.preventDefault();
         try {
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            console.log('PUT Response', response);
-            getData();
+            fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -65,10 +65,6 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
             [name]: value
         }))
         console.log('data', data);
-    }
-
-    const handleSubmit = (event: any) => {
-        console.log('Form Submitted');
     }
 
     const handleClick = (event: any) => {
@@ -86,7 +82,7 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
                     <h3>Let's {mode} your task!</h3>
                     <StyledCloseButton variant='text' onClick={handleClick}><CloseIcon sx={{ color: 'black' }} /></StyledCloseButton>
                 </StyledFormTitleContainer>
-                <StyledForm onSubmit={handleSubmit}>
+                <StyledForm>
                     <InputLabel htmlFor='title'></InputLabel>
                     <TextField
                         required

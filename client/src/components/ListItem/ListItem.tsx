@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
 import { StyledListItem, StyledButtonContainer } from './styles';
+import useStore from '../../store';
+import { useCookies } from 'react-cookie';
 
-const ListItem: React.FC<any> = (props) => {
-    const [showModal, setShowModal] = useState<boolean>(false);
+const ListItem: React.FC<any> = ({ task }) => {
+    const fetchData = useStore(state => state.fetch);
+    const showModal = useStore(state => state.showModal);
+    const setShowModal = useStore(state => state.setShowModal);
+    const setMode = useStore(state => state.setMode);
+    const [cookies] = useCookies();
 
     const editTodo = () => {
-        console.log('Editing to-do');
         setShowModal(true);
+        setMode('edit');
+        fetchData(cookies.Email);
     }
 
     const deleteTodo = async () => {
-        console.log('deleting to-do');
         try {
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${props.task.id}`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
                 method: 'DELETE',
             });
-            console.log('Delete Response', response);
-            props.getData();
+            fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -26,12 +30,12 @@ const ListItem: React.FC<any> = (props) => {
     }
     return (
         <StyledListItem>
-            <p>{props.task.title}</p>
+            <p>{task.title}</p>
             <StyledButtonContainer>
                 <Button title={"EDIT"} onClick={editTodo} />
                 <Button title={"DELETE"} onClick={deleteTodo} />
             </StyledButtonContainer>
-            {showModal && <Modal mode='edit' setShowModal={setShowModal} task={props.task} getData={props.getData} />}
+            {showModal && <Modal task={task} />}
         </StyledListItem>
     )
 }

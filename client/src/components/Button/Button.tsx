@@ -1,13 +1,10 @@
-import React from 'react';
 import { StyledButton, StyledButtonContainer } from './styles';
 
-const Button: React.FC<any> = (props) => {
-    console.log('props', props);
-
+const Button: React.FC<any> = ({ onClick, title }) => {
 
     return (
         <StyledButtonContainer>
-            <StyledButton variant="contained" onClick={props?.onClick}>{props?.title}</StyledButton>
+            <StyledButton variant="contained" onClick={onClick}>{title}</StyledButton>
         </StyledButtonContainer>
     )
 }
