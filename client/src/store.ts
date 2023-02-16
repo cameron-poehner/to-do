@@ -1,10 +1,18 @@
 import { create } from 'zustand'
 
+interface toDo {
+    date: string
+    id: string
+    progress: Number
+    title: string
+    user_email: string
+}
+
 interface State {
-    toDos: any
+    toDos: toDo[] | null
     showModal: boolean
     mode: string | null
-    setToDos: (toDos: any) => void
+    setToDos: (toDos: toDo[]) => void
     setShowModal: (showModal: boolean) => void
     setMode: (mode: string | null) => void
     fetch: (user_email: any) => void

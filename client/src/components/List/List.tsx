@@ -3,8 +3,10 @@ import ListHeader from '../ListHeader';
 import ListItem from '../ListItem';
 import useStore from '../../store';
 
-const List: React.FC<any> = (props) => {
+const List = () => {
     const toDos = useStore(state => state.toDos);
+
+    console.log('Todos', toDos);
 
     return (
         <StyledList>
