@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, SyntheticEvent } from 'react';
 import {
     StyledAuthContainer,
     StyledForm,
@@ -9,7 +9,6 @@ import {
 import Button from '../Button';
 import { InputLabel } from '@mui/material'
 import { useCookies } from 'react-cookie';
-import useStore from '../../store';
 
 const Auth = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -17,21 +16,14 @@ const Auth = () => {
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
     const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
-    const [error, setError] = useState<any>(null);
+    const [error, setError] = useState<string | null>(null);
 
-    const viewLogin = (status: any) => {
+    const viewLogin = (status: boolean): void => {
         setError(null);
         setIsLoggedIn(status);
     };
 
-
-
-    const handleChange = (event: any) => {
-        event.preventDefault();
-        console.log('Event', event);
-    }
-
-    const handleSubmit = async (event: any, endpoint: any) => {
+    const handleSubmit = async (event: any, endpoint: string): Promise<void> => {
         event.preventDefault();
         if (!isLoggedIn && password !== confirmPassword) {
             setError('Make sure passwords match');
@@ -101,7 +93,7 @@ const Auth = () => {
                             />
                         </>
                     }
-                    <Button type='submit' title='SUBMIT' onClick={(event: any) => handleSubmit(event, isLoggedIn ? 'login' : 'signup')} />
+                    <Button type='submit' title='SUBMIT' onClick={(event: SyntheticEvent) => handleSubmit(event, isLoggedIn ? 'login' : 'signup')} />
                     {error && <p>{error}</p>}
                 </StyledForm>
                 <StyledAuthOptions>

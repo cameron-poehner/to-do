@@ -19,8 +19,8 @@ import useStore from './store';
 const App = () => {
   const fetchData = useStore(state => state.fetch);
   const [cookies] = useCookies(['Email', 'AuthToken']);
-  const userEmail = cookies.Email;
-  const authToken = cookies.AuthToken;
+  const userEmail: string = cookies.Email;
+  const authToken: string = cookies.AuthToken;
 
   useEffect(() => {
     if (authToken) {
