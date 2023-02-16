@@ -1,10 +1,14 @@
 import Button from '../Button';
 import Modal from '../Modal';
 import { StyledListItem, StyledButtonContainer } from './styles';
-import useStore from '../../store';
+import useStore, { toDo } from '../../store';
 import { useCookies } from 'react-cookie';
 
-const ListItem: React.FC<any> = ({ task }) => {
+interface ListItemProps {
+    task: toDo
+}
+
+const ListItem: React.FC<ListItemProps> = ({ task }) => {
     const fetchData = useStore(state => state.fetch);
     const showModal = useStore(state => state.showModal);
     const setShowModal = useStore(state => state.setShowModal);

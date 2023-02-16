@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 
-interface toDo {
-    date: string
-    id: string
-    progress: Number
-    title: string
+export interface toDo {
+    date?: string | Date
+    id?: string
+    progress?: number
+    title?: string
     user_email: string
 }
 
@@ -15,14 +15,14 @@ interface State {
     setToDos: (toDos: toDo[]) => void
     setShowModal: (showModal: boolean) => void
     setMode: (mode: string | null) => void
-    fetch: (user_email: any) => void
+    fetch: (user_email: string) => void
 }
 
 const useStore = create<State>()((set) => ({
     toDos: null,
     showModal: false,
     mode: null,
-    setToDos: (toDos: any) => set(state => ({
+    setToDos: (toDos: toDo[]) => set(state => ({
         ...state,
         toDos,
     })),
@@ -34,7 +34,7 @@ const useStore = create<State>()((set) => ({
         ...state,
         mode,
     })),
-    fetch: async (user_email: any) => {
+    fetch: async (user_email: string): Promise<void> => {
         await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${user_email}`)
             .then(res => res.json())
             .then(toDos =>

@@ -5,16 +5,15 @@ import {
     StyledButtonContainer,
 } from './styles';
 import { useCookies } from 'react-cookie';
-import useStore from '../../store';
+import useStore, { toDo } from '../../store';
 
 
 interface ListHeaderProps {
-    listname: any;
-    getData?: any;
-    task?: any;
+    listname: string;
+    task?: toDo;
 }
 
-const ListHeader: React.FC<ListHeaderProps> = (props) => {
+const ListHeader: React.FC<ListHeaderProps> = ({ listname, task }) => {
     const fetchData = useStore(state => state.fetch);
     const showModal = useStore(state => state.showModal);
     const setShowModal = useStore(state => state.setShowModal);
@@ -28,7 +27,6 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
     }
 
     const addNew = () => {
-        console.log('You have added a new to-do item');
         fetchData(cookies.Email);
         setShowModal(true);
         setMode('create');
@@ -36,7 +34,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
 
     return (
         <StyledListHeader>
-            <h1>{props.listname}</h1>
+            <h1>{listname}</h1>
             <StyledButtonContainer>
                 <Button
                     onClick={addNew}
@@ -47,7 +45,7 @@ const ListHeader: React.FC<ListHeaderProps> = (props) => {
                     title="SIGN OUT"
                 />
             </StyledButtonContainer>
-            {showModal && <Modal task={props?.task} />}
+            {showModal && <Modal task={task} />}
         </StyledListHeader>
     )
 }

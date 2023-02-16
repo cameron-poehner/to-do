@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, SyntheticEvent, ChangeEvent, MouseEventHandler } from 'react';
 import {
     StyledOverlay,
     StyledModal,
@@ -11,23 +11,27 @@ import Button from '../Button';
 import { TextField, InputLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useCookies } from 'react-cookie';
-import useStore from '../../store';
+import useStore, { toDo } from '../../store';
 
-const Modal: React.FC<any> = ({ task }) => {
+interface ModalProps {
+    task?: toDo
+}
+
+const Modal: React.FC<ModalProps> = ({ task }) => {
     const fetchData = useStore(state => state.fetch);
     const setShowModal = useStore(state => state.setShowModal);
     const mode = useStore(state => state.mode);
     const [cookies] = useCookies();
     const editMode = mode === 'edit' ? true : false;
 
-    const [data, setData] = useState<any>({
+    const [data, setData] = useState<toDo>({
         user_email: editMode ? task?.user_email : cookies?.Email,
-        title: editMode ? task?.title : null,
-        progress: editMode ? task?.progress : null,
+        title: editMode ? task?.title : '',
+        progress: editMode ? task?.progress : 0,
         date: editMode ? task?.date : new Date(),
     })
 
-    const postData = async (event: any) => {
+    const postData = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
             await fetch(`${process.env.REACT_APP_SERVER_URL}/todos`, {
@@ -42,10 +46,10 @@ const Modal: React.FC<any> = ({ task }) => {
         }
     }
 
-    const editData = async (event: any) => {
+    const editData = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task?.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -66,11 +70,11 @@ const Modal: React.FC<any> = ({ task }) => {
         }))
     }
 
-    const handleClick = (event: any) => {
+    const handleClick = (event: SyntheticEvent) => {
         setShowModal(false);
     }
 
-    const stopProp = (event: any) => {
+    const stopProp = (event: SyntheticEvent) => {
         event.stopPropagation();
     }
 
@@ -100,7 +104,7 @@ const Modal: React.FC<any> = ({ task }) => {
                         marks
                         name='progress'
                         id='progress'
-                        value={data.progress || 0}
+                        value={data.progress}
                         onChange={handleChange}
                     />
                     <Button type='submit' title='SUBMIT' onClick={editMode ? editData : postData} />

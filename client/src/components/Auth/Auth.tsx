@@ -23,7 +23,7 @@ const Auth = () => {
         setIsLoggedIn(status);
     };
 
-    const handleSubmit = async (event: any, endpoint: string): Promise<void> => {
+    const handleSubmit = async (event: SyntheticEvent, endpoint: string) => {
         event.preventDefault();
         if (!isLoggedIn && password !== confirmPassword) {
             setError('Make sure passwords match');

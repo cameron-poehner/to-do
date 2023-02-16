@@ -1,6 +1,12 @@
 import { StyledButton, StyledButtonContainer } from './styles';
 
-const Button: React.FC<any> = ({ onClick, title }) => {
+interface ButtonProps {
+    onClick?: (event?: any) => void | Promise<void>
+    title?: string
+    type?: string
+}
+
+const Button: React.FC<ButtonProps> = ({ onClick, title }) => {
 
     return (
         <StyledButtonContainer>
