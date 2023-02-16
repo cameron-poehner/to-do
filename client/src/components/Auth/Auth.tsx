@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, SyntheticEvent } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import {
     StyledAuthContainer,
     StyledForm,
