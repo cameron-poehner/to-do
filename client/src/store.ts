@@ -1,19 +1,16 @@
 import { create } from 'zustand'
 
-interface BearState {
-    bears: number
+interface State {
     toDos: any
     showModal: boolean
     mode: string | null
-    increase: (by: number) => void
     setToDos: (toDos: any) => void
     setShowModal: (showModal: boolean) => void
     setMode: (mode: string | null) => void
     fetch: (user_email: any) => void
 }
 
-const useStore = create<BearState>()((set) => ({
-    bears: 0,
+const useStore = create<State>()((set) => ({
     toDos: null,
     showModal: false,
     mode: null,
@@ -21,7 +18,6 @@ const useStore = create<BearState>()((set) => ({
         ...state,
         toDos,
     })),
-    increase: (by) => set((state) => ({ bears: state.bears + by })),
     setShowModal: (showModal: boolean) => set(state => ({
         ...state,
         showModal,
