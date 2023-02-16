@@ -64,7 +64,6 @@ const Modal: React.FC<any> = ({ task }) => {
             ...data,
             [name]: value
         }))
-        console.log('data', data);
     }
 
     const handleClick = (event: any) => {

@@ -8,11 +8,11 @@ import { useCookies } from 'react-cookie';
 import useStore from './store';
 
 // To-do: 
-// 1. Implement Zustand for Global State Management - 
-// 2. Add type definitions where necessary
+// 1. Implement Zustand for Global State Management - ✅
+// 2. Add type definitions where necessary - 
 // 3. Fix Signin/Login Modal + Add Form Validations
-// 4. Find Way to Add Route
-// 5. Make Responsive
+// 4. Make Responsive
+// 5. Find way to Add Route/Lists with relationship to correct to-do's
 // 6. Deploy
 // 7. Add testing
 
