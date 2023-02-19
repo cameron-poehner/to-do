@@ -1,24 +1,24 @@
+import { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
 import { StyledListItem, StyledButtonContainer } from './styles';
-import useStore, { toDo } from '../../store';
+import useStore from '../../store';
 import { useCookies } from 'react-cookie';
 
 interface ListItemProps {
-    task: toDo
+    task: any
 }
 
 const ListItem: React.FC<ListItemProps> = ({ task }) => {
+    const [showModal, setShowModal] = useState(false);
     const fetchData = useStore(state => state.fetch);
-    const showModal = useStore(state => state.showModal);
-    const setShowModal = useStore(state => state.setShowModal);
     const setMode = useStore(state => state.setMode);
     const [cookies] = useCookies();
 
     const editTodo = () => {
-        setShowModal(true);
         setMode('edit');
-        fetchData(cookies.Email);
+        setShowModal(true);
+        console.log('Task', task);
     }
 
     const deleteTodo = async () => {
@@ -36,10 +36,10 @@ const ListItem: React.FC<ListItemProps> = ({ task }) => {
         <StyledListItem>
             <p>{task.title}</p>
             <StyledButtonContainer>
-                <Button title={"EDIT"} onClick={editTodo} />
-                <Button title={"DELETE"} onClick={deleteTodo} />
+                <Button variant='contained' title={"EDIT"} onClick={editTodo} />
+                <Button variant='contained' title={"DELETE"} onClick={deleteTodo} />
             </StyledButtonContainer>
-            {showModal && <Modal task={task} />}
+            {showModal && <Modal task={task} setShowModal={setShowModal} />}
         </StyledListItem>
     )
 }

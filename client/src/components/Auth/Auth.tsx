@@ -7,7 +7,7 @@ import {
     StyledAuthOptions
 } from './styles'
 import Button from '../Button';
-import { InputLabel } from '@mui/material'
+import { InputLabel, FormHelperText } from '@mui/material'
 import { useCookies } from 'react-cookie';
 
 const Auth = () => {
@@ -36,7 +36,7 @@ const Auth = () => {
             body: JSON.stringify({ email, password }),
         });
         const data = await response.json();
-        console.log('Data', data);
+
 
         if (data.detail) {
             setError(data.detail);
@@ -48,6 +48,10 @@ const Auth = () => {
         }
     }
 
+    const passwordError = 'Login failed';
+    const emailError = 'User does not exist';
+    const confirmPasswordError = 'Make sure passwords match';
+
     return (
         <StyledAuthContainer>
             <StyledFormContainer>
@@ -57,11 +61,12 @@ const Auth = () => {
                             fontWeight: 400,
                             fontFamily: 'Helvetica',
                             letterSpacing: '1.5px',
-                            alignSelf: 'center'
+                            alignSelf: 'center',
+                            padding: 0,
                         }}>
                         {isLoggedIn ? 'Please log in' : 'Please sign up!'}
                     </h2>
-                    <InputLabel htmlFor='email'>Email</InputLabel>
+                    <InputLabel error={error === emailError ? true : false} htmlFor='email'>Email</InputLabel>
                     <StyledTextField
                         autoComplete='off'
                         type='email'
@@ -69,37 +74,56 @@ const Auth = () => {
                         variant='standard'
                         id='email'
                         name='email'
+                        error={error === emailError ? true : false}
                         onChange={event => (setEmail(event?.target.value))}
                     />
-                    <InputLabel htmlFor='password'>Password</InputLabel>
+                    {error === emailError && <FormHelperText error={error === emailError ? true : false} id='component-error-text'>{error}</FormHelperText>}
+                    <InputLabel error={error === passwordError ? true : false} htmlFor='password'>Password</InputLabel>
                     <StyledTextField
                         type='password'
                         placeholder='password'
                         variant='standard'
                         id='password'
                         name='password'
+                        error={error === passwordError ? true : false}
                         onChange={event => setPassword(event.target.value)}
                     />
+                    <>
+                        {error === passwordError &&
+                            <FormHelperText error={error === passwordError ? true : false} id='component-error-text'>{error}</FormHelperText>
+                        }
+                    </>
                     {!isLoggedIn &&
                         <>
-                            <InputLabel htmlFor='confirm-password'>Confirm Password</InputLabel>
+                            <InputLabel error={error === confirmPasswordError ? true : false} htmlFor='confirm-password'>Confirm Password</InputLabel>
                             <StyledTextField
                                 type='password'
                                 placeholder='confirm password'
                                 variant='standard'
                                 id='confirm-password'
                                 name='confirm-password'
+                                error={error === confirmPasswordError ? true : false}
                                 onChange={event => setConfirmPassword(event.target.value)}
                             />
+                            {error === confirmPasswordError && <FormHelperText error={error === confirmPasswordError ? true : false} id='component-error-text'>{error}</FormHelperText>}
                         </>
                     }
-                    <Button type='submit' title='SUBMIT' onClick={(event: SyntheticEvent) => handleSubmit(event, isLoggedIn ? 'login' : 'signup')} />
-                    {error && <p>{error}</p>}
+                    <Button variant='contained' title='SUBMIT' onClick={(event: SyntheticEvent) => handleSubmit(event, isLoggedIn ? 'login' : 'signup')} />
                 </StyledForm>
-                <StyledAuthOptions>
-                    <Button title='Sign in' onClick={() => viewLogin(false)} />
-                    <Button title='Sign Up' onClick={() => viewLogin(true)} />
-                </StyledAuthOptions>
+                {!isLoggedIn && (
+                    <StyledAuthOptions>
+                        <p>Already have an account?</p>
+                        <Button variant='text' title='Sign in' onClick={() => viewLogin(true)} />
+                    </StyledAuthOptions>
+                )}
+                {isLoggedIn && (
+                    <StyledAuthOptions>
+                        <p>Don't have an account?</p>
+                        <Button variant='text' title='Sign Up' onClick={() => viewLogin(false)} />
+                    </StyledAuthOptions>
+                )
+
+                }
             </StyledFormContainer>
         </StyledAuthContainer>
     )

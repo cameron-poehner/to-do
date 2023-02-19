@@ -25,12 +25,16 @@ export const StyledFormContainer = styled('div')(({ theme }) => ({
     borderRadius: '10px',
     boxShadow: '0px 3px 5px rgb(0, 0, 0, 0.2)',
     backgroundColor: theme.palette.primary.main,
+    [theme.breakpoints.down('md')]: {
+        paddingLeft: '1rem',
+        width: '70vw'
+    }
 }));
 
 export const StyledForm = styled('form')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
 }));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -48,10 +52,19 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
         borderRadius: '5px',
         textAlign: 'center',
     },
+    [theme.breakpoints.down('md')]: {
+        width: '80%'
+    }
 }));
 
 export const StyledAuthOptions = styled('div')(({ theme }) => ({
     display: 'flex',
-    justifyContent: 'space-between',
-    width: '40%'
+    justifyContent: 'start',
+    alignItems: 'center',
+    width: '60%',
+    [theme.breakpoints.down('md')]: {
+        width: '80%',
+        flexWrap: 'wrap',
+        fontSize: '12px'
+    }
 }));

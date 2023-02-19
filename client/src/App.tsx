@@ -8,13 +8,11 @@ import { useCookies } from 'react-cookie';
 import useStore from './store';
 
 // To-do: 
-// 1. Implement Zustand for Global State Management - ✅
-// 2. Add type definitions where necessary - 
-// 3. Fix Signin/Login Modal + Add Form Validations
-// 4. Make Responsive
-// 5. Find way to Add Route/Lists with relationship to correct to-do's
-// 6. Deploy
-// 7. Add testing
+// 1. Make Responsive - ✅
+// 2. Find way to Add Routes/Lists with relationship to correct to-do's
+// 3. Improve UX: checkbox, notes, onKeyDown, completed, Date Reminder, etc. 
+// 4. Add testing
+// 5. Deploy
 
 const App = () => {
   const fetchData = useStore(state => state.fetch);
@@ -33,9 +31,7 @@ const App = () => {
       <StyledPage>
         {!authToken && <Auth />}
         {authToken &&
-          <>
-            <List />
-          </>
+          <List />
         }
       </StyledPage>
     </ThemeProvider>

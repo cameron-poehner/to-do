@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent, ChangeEvent, MouseEventHandler } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import {
     StyledOverlay,
     StyledModal,
@@ -14,18 +14,21 @@ import { useCookies } from 'react-cookie';
 import useStore, { toDo } from '../../store';
 
 interface ModalProps {
-    task?: toDo
+    task: any
+    setShowModal?: any
 }
 
-const Modal: React.FC<ModalProps> = ({ task }) => {
+const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
     const fetchData = useStore(state => state.fetch);
-    const setShowModal = useStore(state => state.setShowModal);
     const mode = useStore(state => state.mode);
     const [cookies] = useCookies();
     const editMode = mode === 'edit' ? true : false;
 
-    const [data, setData] = useState<toDo>({
-        user_email: editMode ? task?.user_email : cookies?.Email,
+    console.log('Modal Task', task);
+
+
+    const [data, setData] = useState<any>({
+        user_email: editMode ? task?.user_email : cookies.Email,
         title: editMode ? task?.title : '',
         progress: editMode ? task?.progress : 0,
         date: editMode ? task?.date : new Date(),
@@ -62,9 +65,10 @@ const Modal: React.FC<ModalProps> = ({ task }) => {
     };
 
     const handleChange = (event: any) => {
+        event.preventDefault();
         event.stopPropagation();
         const { name, value } = event.target;
-        setData((data: any) => ({
+        setData((data: toDo) => ({
             ...data,
             [name]: value
         }))
@@ -74,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({ task }) => {
         setShowModal(false);
     }
 
-    const stopProp = (event: SyntheticEvent) => {
+    const stopProp = (event: any) => {
         event.stopPropagation();
     }
 
@@ -91,7 +95,7 @@ const Modal: React.FC<ModalProps> = ({ task }) => {
                         required
                         placeholder='Your task goes here'
                         name='title'
-                        value={data.title || ''}
+                        value={data.title}
                         onChange={handleChange}
                         variant='standard'
                         id='title'
@@ -107,7 +111,7 @@ const Modal: React.FC<ModalProps> = ({ task }) => {
                         value={data.progress}
                         onChange={handleChange}
                     />
-                    <Button type='submit' title='SUBMIT' onClick={editMode ? editData : postData} />
+                    <Button variant='contained' title='SUBMIT' onClick={editMode ? editData : postData} />
                 </StyledForm>
             </StyledModal>
         </StyledOverlay>

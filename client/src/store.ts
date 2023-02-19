@@ -5,30 +5,23 @@ export interface toDo {
     id?: string
     progress?: number
     title?: string
-    user_email: string
+    user_email?: string
 }
 
 interface State {
-    toDos: toDo[] | null
-    showModal: boolean
+    toDos: toDo[]
     mode: string | null
     setToDos: (toDos: toDo[]) => void
-    setShowModal: (showModal: boolean) => void
     setMode: (mode: string | null) => void
     fetch: (user_email: string) => void
 }
 
 const useStore = create<State>()((set) => ({
-    toDos: null,
-    showModal: false,
+    toDos: [],
     mode: null,
     setToDos: (toDos: toDo[]) => set(state => ({
         ...state,
         toDos,
-    })),
-    setShowModal: (showModal: boolean) => set(state => ({
-        ...state,
-        showModal,
     })),
     setMode: (mode: string | null) => set((state) => ({
         ...state,

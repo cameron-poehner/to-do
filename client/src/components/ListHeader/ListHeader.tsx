@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
 import {
@@ -5,18 +6,17 @@ import {
     StyledButtonContainer,
 } from './styles';
 import { useCookies } from 'react-cookie';
-import useStore, { toDo } from '../../store';
+import useStore from '../../store';
 
 
 interface ListHeaderProps {
     listname: string;
-    task?: toDo;
+    task?: any;
 }
 
 const ListHeader: React.FC<ListHeaderProps> = ({ listname, task }) => {
+    const [showModal, setShowModal] = useState(false);
     const fetchData = useStore(state => state.fetch);
-    const showModal = useStore(state => state.showModal);
-    const setShowModal = useStore(state => state.setShowModal);
     const setMode = useStore(state => state.setMode);
     const [cookies, setCookie, removeCookie] = useCookies();
 
@@ -39,13 +39,15 @@ const ListHeader: React.FC<ListHeaderProps> = ({ listname, task }) => {
                 <Button
                     onClick={addNew}
                     title="ADD NEW"
+                    variant='contained'
                 />
                 <Button
                     onClick={signOut}
                     title="SIGN OUT"
+                    variant='contained'
                 />
             </StyledButtonContainer>
-            {showModal && <Modal task={task} />}
+            {showModal && <Modal task={task} setShowModal={setShowModal} />}
         </StyledListHeader>
     )
 }
