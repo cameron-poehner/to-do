@@ -30,8 +30,10 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
     const [data, setData] = useState<any>({
         user_email: editMode ? task?.user_email : cookies.Email,
         title: editMode ? task?.title : '',
-        progress: editMode ? task?.progress : 0,
+        completed: editMode ? true : false,
         date: editMode ? task?.date : new Date(),
+        notes: editMode ? task?.notes : 'test-notes',
+        list_id: editMode ? task?.id : '5',
     })
 
     const postData = async (event: SyntheticEvent) => {
@@ -101,16 +103,16 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                         id='title'
                     />
                     <InputLabel htmlFor='progress'>Progress</InputLabel>
-                    <StyledSlider
+                    {/* <StyledSlider
                         min={0}
                         max={100}
                         step={10}
                         marks
-                        name='progress'
+                        name='completed'
                         id='progress'
                         value={data.progress}
                         onChange={handleChange}
-                    />
+                    /> */}
                     <Button variant='contained' title='SUBMIT' onClick={editMode ? editData : postData} />
                 </StyledForm>
             </StyledModal>
