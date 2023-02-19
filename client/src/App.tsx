@@ -4,6 +4,7 @@ import List from './components/List';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './styles/styles';
 import Auth from './components/Auth';
+import Navbar from './components/Navbar';
 import { useCookies } from 'react-cookie';
 import useStore from './store';
 
@@ -29,6 +30,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <StyledPage>
+        {authToken && <Navbar />}
         {!authToken && <Auth />}
         {authToken &&
           <List />
