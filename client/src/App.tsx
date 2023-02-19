@@ -1,35 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { StyledPage } from './styles/styles'
-// import Auth from './components/Auth';
 import List from './components/List';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './styles/styles';
+import Auth from './components/Auth';
+import { useCookies } from 'react-cookie';
+import useStore from './store';
+
+// To-do: 
+// 1. Make Responsive - ✅
+// 2. Find way to Add Routes/Lists with relationship to correct to-do's
+// 3. Improve UX: checkbox, notes, onKeyDown, completed, Date Reminder, etc. 
+// 4. Add testing
+// 5. Deploy
 
 const App = () => {
-  const [tasks, setTasks] = useState<any[] | null>(null);
-
-  const getData = async () => {
-    const userEmail = 'cam@test.com';
-
-    try {
-      const res = await fetch(`http://localhost:8000/todos/${userEmail}`);
-      const json = await res.json();
-      setTasks(json);
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  const fetchData = useStore(state => state.fetch);
+  const [cookies] = useCookies(['Email', 'AuthToken']);
+  const userEmail: string = cookies.Email;
+  const authToken: string = cookies.AuthToken;
 
   useEffect(() => {
-    getData();
-  }, []);
-
-  console.log('Tasks', tasks);
+    if (authToken) {
+      fetchData(userEmail);
+    }
+  }, [authToken, fetchData, userEmail]);
 
   return (
     <ThemeProvider theme={theme}>
       <StyledPage>
-        <List list={tasks} getData={getData} />
+        {!authToken && <Auth />}
+        {authToken &&
+          <List />
+        }
       </StyledPage>
     </ThemeProvider>
   );

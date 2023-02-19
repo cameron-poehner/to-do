@@ -6,10 +6,20 @@ export const StyledButtonContainer = styled('div')(({ theme }) => ({
     padding: 0,
 }))
 
-export const StyledButton = styled(Button)(({ theme }) => ({
-    margin: '5px 0px 5px 0px',
-    backgroundColor: theme.palette.secondary.dark,
-    '&:hover': {
-        backgroundColor: theme.palette.secondary.light,
-    }
-}))
+export const StyledButton = styled(Button, {
+    // Configure which props should be forwarded on DOM
+    shouldForwardProp: (prop) => prop !== 'variant'
+
+})
+    (({ theme, variant }) => ({
+        margin: '5px 0px 5px 0px',
+        backgroundColor: variant === 'contained' ? theme.palette.secondary.dark : 'none',
+        color: theme.palette.secondary.contrastText,
+        '&:hover': {
+            backgroundColor: theme.palette.primary.light,
+            color: variant === 'contained' ? theme.palette.text.primary : theme.palette.secondary.dark,
+        },
+        [theme.breakpoints.down('md')]: {
+            fontSize: variant === 'contained' ? '' : '12px',
+        }
+    }))

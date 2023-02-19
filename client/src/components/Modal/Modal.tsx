@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import {
     StyledOverlay,
     StyledModal,
@@ -10,45 +10,54 @@ import {
 import Button from '../Button';
 import { TextField, InputLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useCookies } from 'react-cookie';
+import useStore, { toDo } from '../../store';
 
-const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
-    console.log('mode', mode);
-    console.log('task', task);
-    const editMode = mode === 'edit' ? true : false
+interface ModalProps {
+    task: any
+    setShowModal?: any
+}
+
+const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
+    const fetchData = useStore(state => state.fetch);
+    const mode = useStore(state => state.mode);
+    const [cookies] = useCookies();
+    const editMode = mode === 'edit' ? true : false;
+
+    console.log('Modal Task', task);
+
 
     const [data, setData] = useState<any>({
-        user_email: editMode ? task.user_email : 'cam@test.com',
-        title: editMode ? task.title : null,
-        progress: editMode ? task.progress : null,
-        date: editMode ? task.date : new Date(),
+        user_email: editMode ? task?.user_email : cookies.Email,
+        title: editMode ? task?.title : '',
+        progress: editMode ? task?.progress : 0,
+        date: editMode ? task?.date : new Date(),
     })
 
-    const postData = async (event: any) => {
+    const postData = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8000/todos`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            console.log('POST Response', response);
-            getData();
+            fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
         }
     }
 
-    const editData = async (event: any) => {
+    const editData = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task?.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            console.log('PUT Response', response);
-            getData();
+            fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -56,20 +65,16 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
     };
 
     const handleChange = (event: any) => {
+        event.preventDefault();
         event.stopPropagation();
         const { name, value } = event.target;
-        setData((data: any) => ({
+        setData((data: toDo) => ({
             ...data,
             [name]: value
         }))
-        console.log('data', data);
     }
 
-    const handleSubmit = (event: any) => {
-        console.log('Form Submitted');
-    }
-
-    const handleClick = (event: any) => {
+    const handleClick = (event: SyntheticEvent) => {
         setShowModal(false);
     }
 
@@ -84,13 +89,13 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
                     <h3>Let's {mode} your task!</h3>
                     <StyledCloseButton variant='text' onClick={handleClick}><CloseIcon sx={{ color: 'black' }} /></StyledCloseButton>
                 </StyledFormTitleContainer>
-                <StyledForm onSubmit={handleSubmit}>
+                <StyledForm>
                     <InputLabel htmlFor='title'></InputLabel>
                     <TextField
                         required
                         placeholder='Your task goes here'
                         name='title'
-                        value={data.title || ''}
+                        value={data.title}
                         onChange={handleChange}
                         variant='standard'
                         id='title'
@@ -103,10 +108,10 @@ const Modal: React.FC<any> = ({ mode, setShowModal, task, getData }) => {
                         marks
                         name='progress'
                         id='progress'
-                        value={data.progress || 0}
+                        value={data.progress}
                         onChange={handleChange}
                     />
-                    <Button type='submit' title='SUBMIT' onClick={editMode ? editData : postData} />
+                    <Button variant='contained' title='SUBMIT' onClick={editMode ? editData : postData} />
                 </StyledForm>
             </StyledModal>
         </StyledOverlay>

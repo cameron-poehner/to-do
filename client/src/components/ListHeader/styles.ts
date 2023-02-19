@@ -5,6 +5,7 @@ export const StyledListHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
     borderBottom: '1px solid rgb(0 0 0 / 0.2)',
     '&>h1': {
         fontFamily: 'Arial',
@@ -13,9 +14,11 @@ export const StyledListHeader = styled('div')(({ theme }) => ({
 }))
 
 export const StyledButtonContainer = styled('div')(({ theme }) => ({
-    margin: 0,
-    padding: 0,
     display: 'flex',
     justifyContent: 'space-between',
     width: '18%',
+    [theme.breakpoints.down('md')]: {
+        width: '80%',
+    }
+
 }))
