@@ -11,34 +11,96 @@ const jwt = require('jsonwebtoken');
 app.use(cors());
 app.use(express.json());
 
-app.get('/todos/:userEmail', async (req, res) => {
-    const { userEmail } = req.params;
+app.get('/todos/:list/:userEmail', async (req, res) => {
+    const { list, userEmail } = req.params;
 
     try {
-        const todos = await dbPool.query('SELECT * FROM todos WHERE user_email = $1', [userEmail]);
+        const todos = await dbPool.query('SELECT * FROM todos WHERE list_id = $1 AND user_email = $2', [list, userEmail]);
         res.json(todos.rows);
     } catch (err) {
         console.error(err);
     }
 });
 
+app.get('/lists/:userEmail', async (req, res) => {
+    const { userEmail } = req.params;
+    console.log('user email', userEmail)
+    console.log('route params', req.params);
+
+    try {
+        const lists = await dbPool.query('SELECT * FROM lists WHERE user_email = $1', [userEmail]);
+        // console.log('lists', lists);
+        res.json(lists.rows);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.get('/lists/:list/:userEmail', async (req, res) => {
+    const { list, userEmail } = req.params;
+    try {
+        const getList = await dbPool.query('SELECT * FROM lists WHERE id = $1 AND user_email = $2', [list, userEmail]);
+        res.json(getList.rows);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.post('/lists', async (req, res) => {
+    const id = uuidv4();
+    const {
+        title,
+        user_email
+    } = req.body;
+
+    try {
+        const newList = await dbPool.query(`Insert INTO lists(id, title, user_email) VALUES($1, $2, $3)`, [id, title, user_email]);
+        res.json(newList);
+    } catch (err) {
+        console.error(err);
+    }
+})
+
 app.post('/todos', async (req, res) => {
     const id = uuidv4();
     const {
         user_email,
         title,
-        progress,
-        date
+        completed,
+        date,
+        notes,
+        list_id,
     } = req.body;
-    console.log('Request body', req.body);
     try {
-        const newToDo = await dbPool.query(`Insert INTO todos(id, user_email, title, progress, date) VALUES($1, $2, $3, $4, $5)`,
-            [id, user_email, title, progress, date]);
+        const newToDo = await dbPool.query(`Insert INTO todos(id, user_email, title, completed, notes, list_id, date) VALUES($1, $2, $3, $4, $5, $6, $7)`,
+            [id, user_email, title, completed, notes, list_id, date]);
         res.json(newToDo);
     } catch (err) {
         console.error(err);
     }
 });
+
+app.put('/lists/:list', async (req, res) => {
+    const { list } = req.params;
+    const { title, user_email } = req.body;
+    try {
+        const updatedList = await dbPool.query('UPDATE lists SET title = $1 WHERE id = $2 AND user_email = $3', [title, list, user_email])
+        res.json(updatedList);
+    } catch (err) {
+        console.error(err);
+    }
+})
+
+// app.put('/update', async (req, res) => {
+//     // const { id } = req.params;
+//     try {
+//         const updateToDo = await dbPool.query('CREATE TABLE lists (id VARCHAR(255) PRIMARY KEY, title VARCHAR(255), user_email VARCHAR(255))');
+
+//         res.json(updateToDo);
+//     } catch (err) {
+//         console.error(err);
+//     }
+// })
 
 app.put('/todos/:id', async (req, res) => {
     const { id } = req.params;
@@ -62,6 +124,20 @@ app.delete('/todos/:id', async (req, res) => {
     }
 
 });
+
+app.delete('/lists/:list/:userEmail', async (req, res) => {
+    const { list, user_email } = req.params;
+    try {
+        const deletedList = await dbPool.query(`DELETE FROM lists WHERE id = $1`, [list]);
+        const deletedTodos = await dbPool.query(`DELETE FROM todos WHERE list_id = $1`, [list])
+        res.json({
+            deletedList,
+            deletedTodos,
+        });
+    } catch (err) {
+        console.error(err);
+    }
+})
 
 app.post('/signup', async (req, res) => {
     const { email, password } = req.body;
