@@ -20,6 +20,9 @@ export const StyledModal = styled('div')(({ theme }) => ({
     padding: '40px',
     borderRadius: '10px',
     boxShadow: 'rgb(0, 0, 0, 0.05) 0 6px 24px 0, rgb(0, 0, 0, 0,08) 0 0 0 1px',
+    [theme.breakpoints.down('md')]: {
+        width: '60%'
+    }
 }));
 
 export const StyledFormTitleContainer = styled('div')(({ theme }) => ({

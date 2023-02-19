@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
 import { StyledListItem, StyledButtonContainer } from './styles';
+import useStore from '../../store';
+import { useCookies } from 'react-cookie';
 
-const ListItem: React.FC<any> = (props) => {
-    const [showModal, setShowModal] = useState<boolean>(false);
+interface ListItemProps {
+    task: any
+}
+
+const ListItem: React.FC<ListItemProps> = ({ task }) => {
+    const [showModal, setShowModal] = useState(false);
+    const fetchData = useStore(state => state.fetch);
+    const setMode = useStore(state => state.setMode);
+    const [cookies] = useCookies();
 
     const editTodo = () => {
-        console.log('Editing to-do');
+        setMode('edit');
         setShowModal(true);
+        console.log('Task', task);
     }
 
     const deleteTodo = async () => {
-        console.log('deleting to-do');
         try {
-            const response = await fetch(`http://localhost:8000/todos/${props.task.id}`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
                 method: 'DELETE',
             });
-            console.log('Delete Response', response);
-            props.getData();
+            fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -26,12 +34,12 @@ const ListItem: React.FC<any> = (props) => {
     }
     return (
         <StyledListItem>
-            <p>{props.task.title}</p>
+            <p>{task.title}</p>
             <StyledButtonContainer>
-                <Button title={"EDIT"} onClick={editTodo} />
-                <Button title={"DELETE"} onClick={deleteTodo} />
+                <Button variant='contained' title={"EDIT"} onClick={editTodo} />
+                <Button variant='contained' title={"DELETE"} onClick={deleteTodo} />
             </StyledButtonContainer>
-            {showModal && <Modal mode='edit' setShowModal={setShowModal} task={props.task} getData={props.getData} />}
+            {showModal && <Modal task={task} setShowModal={setShowModal} />}
         </StyledListItem>
     )
 }

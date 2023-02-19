@@ -1,15 +1,16 @@
-import React from 'react';
 import { StyledList } from './styles';
 import ListHeader from '../ListHeader';
 import ListItem from '../ListItem';
+import useStore from '../../store';
 
-const List: React.FC<any> = (props) => {
-    console.log('props', props);
+const List = () => {
+    const toDos = useStore(state => state.toDos);
+    console.log('To-dos', toDos);
 
     return (
         <StyledList>
-            <ListHeader listname={'New York Prep List'} getData={props?.getData} />
-            {props?.list?.map((task: any) => <ListItem key={task.id} task={task} getData={props.getData} />)}
+            <ListHeader listname={'New York Prep List'} />
+            {toDos.map(task => <ListItem key={task.id} task={task} />)}
         </StyledList>
     )
 };

@@ -10,9 +10,13 @@ export const StyledListItem = styled('li')(({ theme }) => ({
     borderRadius: '10px',
     boxShadow: `0px 3px 5px rgb(0, 0, 0, 0.2)`,
     display: 'flex',
+    flexWrap: 'wrap',
     width: '100%',
     justifyContent: 'space-between',
     alignContent: 'center',
+    [theme.breakpoints.down('md')]: {
+        justifyContent: 'space-between',
+    }
 }))
 
 export const StyledButtonContainer = styled('div')(({ theme }) => ({
@@ -22,5 +26,8 @@ export const StyledButtonContainer = styled('div')(({ theme }) => ({
     padding: 0,
     margin: 0,
     marginRight: 10,
-    zIndex: 1,
+    [theme.breakpoints.down('md')]: {
+        width: 'auto',
+
+    }
 }));
