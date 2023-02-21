@@ -7,6 +7,7 @@ import Auth from './components/Auth';
 import Navbar from './components/Navbar';
 import { useCookies } from 'react-cookie';
 import useStore from './store';
+import Home from './components/Home';
 
 // To-do: 
 // 1. Make Responsive - ✅
@@ -16,16 +17,16 @@ import useStore from './store';
 // 5. Deploy
 
 const App = () => {
-  const fetchData = useStore(state => state.fetch);
+  // const fetchData = useStore(state => state.fetch);
   const [cookies] = useCookies(['Email', 'AuthToken']);
-  const userEmail: string = cookies.Email;
+  // const userEmail: string = cookies.Email;
   const authToken: string = cookies.AuthToken;
 
-  useEffect(() => {
-    if (authToken) {
-      fetchData(userEmail);
-    }
-  }, [authToken, fetchData, userEmail]);
+  // useEffect(() => {
+  //   if (authToken) {
+  //     fetchData(userEmail);
+  //   }
+  // }, [authToken, fetchData, userEmail]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -33,7 +34,7 @@ const App = () => {
         {authToken && <Navbar />}
         {!authToken && <Auth />}
         {authToken &&
-          <List />
+          <Home />
         }
       </StyledPage>
     </ThemeProvider>

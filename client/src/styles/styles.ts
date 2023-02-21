@@ -1,8 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
-// To-do: Find better way to set width/height properties; Create Theme and update styles accordingly
-
 export const theme = createTheme({
     palette: {
         primary: {
@@ -44,4 +42,4 @@ export const StyledPage = styled('div')(({ theme }) => ({
     width: '100%',
     height: '100%',
     fontFamily: theme.typography.fontFamily
-}))
+}));
