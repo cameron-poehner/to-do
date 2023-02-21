@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { theme, StyledPage, StyledPageContainer } from '../styles/styles';
-import Navbar from '../components/Navbar';
+import { StyledPageContainer } from '../styles/styles';
 import List from '../components/List';
 import useStore from '../store';
 import { useCookies } from 'react-cookie';

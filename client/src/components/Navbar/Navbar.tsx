@@ -10,7 +10,6 @@ const Navbar = () => {
     const signOut = () => {
         removeCookie('Email');
         removeCookie('AuthToken');
-        // window.location.reload();
     }
 
     return (
