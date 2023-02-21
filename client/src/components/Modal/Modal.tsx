@@ -19,7 +19,7 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
-    const fetchData = useStore(state => state.fetch);
+    const fetchData = useStore(state => state.fetchToDos);
     const mode = useStore(state => state.mode);
     const [cookies] = useCookies();
     const editMode = mode === 'edit' ? true : false;
@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            fetchData(cookies.Email);
+            // fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -59,7 +59,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            fetchData(cookies.Email);
+            // fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);

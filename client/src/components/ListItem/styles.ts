@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 export const StyledListItem = styled('li')(({ theme }) => ({
     backgroundColor: theme.palette.primary.light,
@@ -31,3 +32,12 @@ export const StyledButtonContainer = styled('div')(({ theme }) => ({
 
     }
 }));
+
+export const StyledLink = styled(Link)(({ theme }) => ({
+    textDecoration: 'none',
+    color: 'black',
+    '&:hover': {
+        textDecoration: 'underline',
+        color: theme.palette.secondary.dark
+    }
+}))

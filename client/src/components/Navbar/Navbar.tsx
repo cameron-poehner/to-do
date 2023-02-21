@@ -1,12 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { StyledNav, StyledLink, StyledLinkContainer } from './styles';
+import { useCookies } from 'react-cookie';
+import Button from '../Button';
 
 const Navbar = () => {
+    const [cookies, setCookie, removeCookie] = useCookies();
+
+
+    const signOut = () => {
+        removeCookie('Email');
+        removeCookie('AuthToken');
+        // window.location.reload();
+    }
+
     return (
-        <div style={{ zIndex: 10, position: 'absolute' }}>
-            <Link to="/">Home</Link>
-            <Link to='lists'>Lists</Link>
-        </div>
+        <StyledNav style={{ zIndex: 10 }}>
+            <StyledLinkContainer>
+                <StyledLink to="/">Home</StyledLink>
+                <StyledLink to='lists'>Lists</StyledLink>
+                <StyledLink to='/'>
+                    <Button variant='contained' title='Sign Out' onClick={signOut} />
+                </StyledLink>
+            </StyledLinkContainer>
+        </StyledNav>
     )
 }
 
