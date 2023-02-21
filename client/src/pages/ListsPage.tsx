@@ -25,13 +25,10 @@ const ListsPage = () => {
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <StyledPage>
-                <Navbar />
-                {test && <NoList />}
-                {!test && <List list={toDoLists} />}
-            </StyledPage>
-        </ThemeProvider>
+        <>
+            {test && <NoList />}
+            {!test && <List list={toDoLists} />}
+        </>
     )
 }
 

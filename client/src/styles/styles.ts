@@ -43,3 +43,12 @@ export const StyledPage = styled('div')(({ theme }) => ({
     height: '100%',
     fontFamily: theme.typography.fontFamily
 }));
+
+export const StyledPageContainer = styled('div')(({ theme }) => ({
+    margin: 0,
+    padding: 0,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+}))
