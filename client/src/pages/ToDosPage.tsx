@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { theme, StyledPage } from '../styles/styles';
-import Navbar from '../components/Navbar';
+import { StyledPageContainer } from '../styles/styles';
 import List from '../components/List';
 import useStore from '../store';
 import { useCookies } from 'react-cookie';
@@ -23,12 +21,9 @@ const ToDosPage = (props: any) => {
     console.log('todos', toDos);
 
     return (
-        <ThemeProvider theme={theme}>
-            <StyledPage>
-                <Navbar />
-                <List list={toDos} />
-            </StyledPage>
-        </ThemeProvider>
+        <StyledPageContainer>
+            <List list={toDos} />
+        </StyledPageContainer>
     )
 };
 

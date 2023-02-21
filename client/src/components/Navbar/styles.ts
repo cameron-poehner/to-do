@@ -7,6 +7,7 @@ export const StyledNav = styled('nav')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'end',
     alignItems: 'center',
+    zIndex: 10,
     [theme.breakpoints.down('md')]: {
         justifyContent: 'center'
     }

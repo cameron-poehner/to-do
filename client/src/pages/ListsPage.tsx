@@ -1,8 +1,5 @@
-import { ThemeProvider } from '@emotion/react';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { StyledPage, theme } from '../styles/styles';
-import Navbar from '../components/Navbar';
+import { StyledPageContainer } from '../styles/styles';
 import useStore from '../store';
 import { useCookies } from 'react-cookie';
 import List from '../components/List';
@@ -16,7 +13,6 @@ const ListsPage = () => {
     const toDoLists = useStore(state => state.lists);
     const test = false;
 
-    console.log('lists', toDoLists);
     useEffect(() => {
         if (authToken) {
             fetchLists(userEmail);
@@ -25,13 +21,10 @@ const ListsPage = () => {
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <StyledPage>
-                <Navbar />
-                {test && <NoList />}
-                {!test && <List list={toDoLists} />}
-            </StyledPage>
-        </ThemeProvider>
+        <StyledPageContainer>
+            {test && <NoList />}
+            {!test && <List list={toDoLists} />}
+        </StyledPageContainer>
     )
 }
 

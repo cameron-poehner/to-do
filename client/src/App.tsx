@@ -1,43 +1,26 @@
-import { useEffect } from 'react';
-import { StyledPage } from './styles/styles'
-import List from './components/List';
-import { ThemeProvider } from '@mui/material';
-import { theme } from './styles/styles';
+import { StyledPageContainer } from './styles/styles'
 import Auth from './components/Auth';
-import Navbar from './components/Navbar';
 import { useCookies } from 'react-cookie';
-import useStore from './store';
 import Home from './components/Home';
 
 // To-do: 
-// 1. Make Responsive - ✅
-// 2. Find way to Add Routes/Lists with relationship to correct to-do's
+// 1. Fix Routing/Navbar issues - ✅
+// 2. Refactor List/Modal/ListHeader/ListItem component to adapt to List vs. Todo behaviors
 // 3. Improve UX: checkbox, notes, onKeyDown, completed, Date Reminder, etc. 
 // 4. Add testing
 // 5. Deploy
 
 const App = () => {
-  // const fetchData = useStore(state => state.fetch);
   const [cookies] = useCookies(['Email', 'AuthToken']);
-  // const userEmail: string = cookies.Email;
   const authToken: string = cookies.AuthToken;
 
-  // useEffect(() => {
-  //   if (authToken) {
-  //     fetchData(userEmail);
-  //   }
-  // }, [authToken, fetchData, userEmail]);
-
   return (
-    <ThemeProvider theme={theme}>
-      <StyledPage>
-        {authToken && <Navbar />}
-        {!authToken && <Auth />}
-        {authToken &&
-          <Home />
-        }
-      </StyledPage>
-    </ThemeProvider>
+    <StyledPageContainer>
+      {!authToken && <Auth />}
+      {authToken &&
+        <Home />
+      }
+    </StyledPageContainer>
   );
 }
 
