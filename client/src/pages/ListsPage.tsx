@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { StyledPageContainer } from '../styles/styles';
 import useStore from '../store';
 import { useCookies } from 'react-cookie';
-import List from '../components/List';
 import NoList from '../components/NoList';
+import ListPageHeader from '../components/ListPageHeader';
+import ListViewer from '../components/ListViewer';
 
 const ListsPage = () => {
     const fetchLists = useStore(state => state.fetchLists);
@@ -19,11 +20,11 @@ const ListsPage = () => {
         }
     }, [authToken, fetchLists, userEmail]);
 
-
     return (
         <StyledPageContainer>
+            <ListPageHeader user={userEmail} />
             {test && <NoList />}
-            {!test && <List list={toDoLists} />}
+            <ListViewer lists={toDoLists} />
         </StyledPageContainer>
     )
 }

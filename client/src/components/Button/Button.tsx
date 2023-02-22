@@ -3,7 +3,7 @@ import { StyledButton, StyledButtonContainer } from './styles';
 type variant = 'text' | 'contained' | 'outlined'
 
 interface ButtonProps {
-    onClick?: (event?: any) => void | Promise<void>
+    onClick?: any
     title?: string
     variant?: variant
 }
