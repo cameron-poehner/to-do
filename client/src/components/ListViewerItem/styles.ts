@@ -35,5 +35,5 @@ export const StyledButtonContainer = styled('div')(({ theme }) => ({
     padding: 0,
     display: 'flex',
     justifyContent: 'space-between',
-    // width: 'auto'
+    // width: 'auto
 }));
