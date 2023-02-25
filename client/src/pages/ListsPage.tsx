@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import NoList from '../components/NoList';
 import ListPageHeader from '../components/ListPageHeader';
 import ListViewer from '../components/ListViewer';
+import { useMatch } from 'react-router-dom';
 
 const ListsPage = () => {
     const fetchLists = useStore(state => state.fetchLists);
@@ -13,12 +14,14 @@ const ListsPage = () => {
     const authToken: string = cookies.AuthToken;
     const toDoLists = useStore(state => state.lists);
     const test = false;
+    const render = useMatch('/lists');
 
     useEffect(() => {
-        if (authToken) {
+        if (render?.pathname === '/lists') {
             fetchLists(userEmail);
+            console.log('rendering', render);
         }
-    }, [authToken, fetchLists, userEmail]);
+    }, [render, fetchLists, userEmail]);
 
     return (
         <StyledPageContainer>

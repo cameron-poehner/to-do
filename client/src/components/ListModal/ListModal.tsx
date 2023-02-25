@@ -22,7 +22,8 @@ const ListModal: React.FC<any> = ({ setShowModal }) => {
 
         const body = {
             title: title,
-            user_email: cookies.Email
+            user_email: cookies.Email,
+            date: new Date(),
         }
 
         try {

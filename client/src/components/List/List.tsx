@@ -11,15 +11,13 @@ const List: any = ({ list }: any) => {
     const isListView = useMatch('/lists');
     const toDos = useStore(state => state.toDos);
     const [cookies, setCookie, removeCookie] = useCookies();
-    const view: any = 'list';
     console.log('To-dos', toDos);
     console.log('list', list);
-    const lists = view === 'list' ? list : toDos;
 
     return (
         <StyledList>
             <ListHeader listname={`${cookies.Email}'s To-do Lists`} />
-            {lists.map((task: any) => <ListItem key={task.id} task={task} />)}
+            {toDos?.map((task: any) => <ListItem key={task.id} task={task} />)}
         </StyledList>
     )
 };

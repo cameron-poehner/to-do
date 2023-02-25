@@ -4,7 +4,6 @@ import {
     StyledModal,
     StyledFormTitleContainer,
     StyledForm,
-    StyledSlider,
     StyledCloseButton,
 } from './styles';
 import Button from '../Button';
@@ -20,6 +19,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
     const fetchData = useStore(state => state.fetchToDos);
+    const listId = useStore(state => state.listId);
     const mode = useStore(state => state.mode);
     const [cookies] = useCookies();
     const editMode = mode === 'edit' ? true : false;
@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
         completed: editMode ? true : false,
         date: editMode ? task?.date : new Date(),
         notes: editMode ? task?.notes : 'test-notes',
-        list_id: editMode ? task?.id : '5',
+        list_id: editMode ? task?.list_id : listId,
     })
 
     const postData = async (event: SyntheticEvent) => {
@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            // fetchData(cookies.Email);
+            fetchData(listId, cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -59,7 +59,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            // fetchData(cookies.Email);
+            fetchData(listId, cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
@@ -102,17 +102,6 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                         variant='standard'
                         id='title'
                     />
-                    <InputLabel htmlFor='progress'>Progress</InputLabel>
-                    {/* <StyledSlider
-                        min={0}
-                        max={100}
-                        step={10}
-                        marks
-                        name='completed'
-                        id='progress'
-                        value={data.progress}
-                        onChange={handleChange}
-                    /> */}
                     <Button variant='contained' title='SUBMIT' onClick={editMode ? editData : postData} />
                 </StyledForm>
             </StyledModal>

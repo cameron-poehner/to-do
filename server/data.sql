@@ -19,6 +19,7 @@ CREATE TABlE lists (
     id VARCHAR(255) PRIMARY KEY,
     title VARCHAR(255),
     user_email VARCHAR(255),
+    date VARCHAR(300)
 );
 
 

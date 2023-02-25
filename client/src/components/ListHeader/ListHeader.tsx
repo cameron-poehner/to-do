@@ -16,15 +16,10 @@ interface ListHeaderProps {
 }
 
 const ListHeader: React.FC<ListHeaderProps> = ({ listname, task }) => {
-    const isListView = useMatch('/lists');
-    const isToDoView = useMatch('/lists/:list');
     const [showModal, setShowModal] = useState(false);
     const fetchData = useStore(state => state.fetchToDos);
     const setMode = useStore(state => state.setMode);
     const [cookies, setCookie, removeCookie] = useCookies();
-
-    console.log('is List View?', isListView);
-    console.log('isToDoView', isToDoView);
 
     const addNew = () => {
         // fetchData(cookies.Email);
@@ -35,13 +30,11 @@ const ListHeader: React.FC<ListHeaderProps> = ({ listname, task }) => {
     return (
         <StyledListHeader>
             <h1>{listname}</h1>
-            {!isListView ? null :
-                <Button
-                    onClick={addNew}
-                    title="ADD NEW"
-                    variant='contained'
-                />
-            }
+            <Button
+                onClick={addNew}
+                title="ADD NEW"
+                variant='contained'
+            />
             {showModal && <Modal task={task} setShowModal={setShowModal} />}
         </StyledListHeader>
     )
