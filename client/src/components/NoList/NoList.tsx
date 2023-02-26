@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyledContainer } from './styles';
+import { StyledContainer, StyledH1 } from './styles';
 
 const NoList = () => {
     return (
         <StyledContainer>
-            <h1>Get Started</h1>
+            <StyledH1>What would you like to accomplish today?</StyledH1>
         </StyledContainer>
     )
 };

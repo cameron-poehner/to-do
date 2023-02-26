@@ -7,6 +7,7 @@ import {
 } from './styles';
 import { useCookies } from 'react-cookie';
 import useStore from '../../store';
+import { useMatch } from 'react-router-dom';
 
 
 interface ListHeaderProps {
@@ -19,6 +20,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({ listname, task }) => {
     const fetchData = useStore(state => state.fetchToDos);
     const setMode = useStore(state => state.setMode);
     const [cookies, setCookie, removeCookie] = useCookies();
+    console.log('task', task);
 
     const addNew = () => {
         // fetchData(cookies.Email);

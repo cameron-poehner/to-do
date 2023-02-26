@@ -14,6 +14,7 @@ const Auth = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [email, setEmail] = useState<string | null>(null);
+    const [userName, setUserName] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
     const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -29,20 +30,22 @@ const Auth = () => {
             setError('Make sure passwords match');
             return;
         }
+        console.log('user name', userName);
 
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, userName }),
         });
         const data = await response.json();
 
-
+        console.log('data', data);
         if (data.detail) {
             setError(data.detail);
         } else {
             setCookie('Email', data.email);
             setCookie('AuthToken', data.token);
+            setCookie('UserName', data.userName);
 
             window.location.reload();
         }
@@ -76,6 +79,17 @@ const Auth = () => {
                         name='email'
                         error={error === emailError ? true : false}
                         onChange={event => (setEmail(event?.target.value))}
+                    />
+                    <InputLabel error={error === emailError ? true : false} htmlFor='username'>User Name</InputLabel>
+                    <StyledTextField
+                        autoComplete='off'
+                        type='text'
+                        placeholder='username'
+                        variant='standard'
+                        id='username'
+                        name='username'
+                        error={error === emailError ? true : false}
+                        onChange={event => (setUserName(event?.target.value))}
                     />
                     {error === emailError && <FormHelperText error={error === emailError ? true : false} id='component-error-text'>{error}</FormHelperText>}
                     <InputLabel error={error === passwordError ? true : false} htmlFor='password'>Password</InputLabel>

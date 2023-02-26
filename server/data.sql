@@ -12,13 +12,15 @@ CREATE TABLE todos (
 
 CREATE TABLE users (
     email VARCHAR(255) PRIMARY KEY,
-    hashed_password VARCHAR(255)
+    hashed_password VARCHAR(255),
+    user_name VARCHAR(255)
 );
 
 CREATE TABlE lists (
     id VARCHAR(255) PRIMARY KEY,
     title VARCHAR(255),
     user_email VARCHAR(255),
+    date VARCHAR(300)
 );
 
 

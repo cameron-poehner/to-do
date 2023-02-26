@@ -3,22 +3,30 @@ import { StyledPageContainer } from '../styles/styles';
 import List from '../components/List';
 import useStore from '../store';
 import { useCookies } from 'react-cookie';
+import { useParams } from 'react-router-dom';
+
+// To-do: 
+// 1. Fix Editing order like lists
+// 2. Add onKey handler for create/edit modal
+// 3. Fix Delete Button
+// 4. Create/update no to-do's scenario
+// 5. Update List Item UI - Add Nots, and checkbox fields (This will include Modal updates)
+// 6. Update responsive aspects
+// 7. Update Types/cleanup logs
 
 
-const ToDosPage = (props: any) => {
+const ToDosPage = () => {
+    const { list } = useParams();
     const toDos = useStore(state => state.toDos);
-    const toDoListId = useStore(state => state.listId);
     const fetchToDoList = useStore(state => state.fetchToDos);
-    const [cookies, setCookie, removeCookie] = useCookies();
-    console.log('list id', toDoListId);
-    console.log('email', cookies.Email);
-    useEffect(() => {
-        if (toDoListId) {
-            fetchToDoList(toDoListId, cookies.Email)
-        }
-    }, [fetchToDoList, toDoListId, cookies.Email])
+    const [cookies] = useCookies();
+    console.log('list', list);
 
-    console.log('todos', toDos);
+    useEffect(() => {
+        if (list) {
+            fetchToDoList(list, cookies.Email)
+        }
+    }, [fetchToDoList, list, cookies.Email])
 
     return (
         <StyledPageContainer>

@@ -43,12 +43,7 @@ const ListItem: React.FC<ListItemProps> = ({ task }) => {
     }
     return (
         <StyledListItem>
-            {view === 'list'
-                ? <StyledLink to={`/lists/${task.id}`}>
-                    <Button variant='text' onClick={handleClick} title={task.title} />
-                </StyledLink>
-                : <p>{task.title}</p>
-            }
+            <p>{task.title}</p>
             <StyledButtonContainer>
                 <Button variant='contained' title={"EDIT"} onClick={editTodo} />
                 <Button variant='contained' title={"DELETE"} onClick={deleteTodo} />
