@@ -15,8 +15,41 @@ app.get('/todos/:list/:userEmail', async (req, res) => {
     const { list, userEmail } = req.params;
 
     try {
-        const todos = await dbPool.query('SELECT * FROM todos WHERE list_id = $1 AND user_email = $2', [list, userEmail]);
+        const todos = await dbPool.query(`SELECT * FROM todos WHERE list_id = $1 AND user_email = $2  AND completed = 'false' ORDER BY date`, [list, userEmail]);
         res.json(todos.rows);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.get('/completed/todos/:userEmail', async (req, res) => {
+    const { userEmail } = req.params;
+
+    try {
+        const completedToDos = await dbPool.query(`SELECT * FROM todos WHERE user_email = $1  AND completed = 'true' ORDER BY date`, [userEmail]);
+        res.json(completedToDos.rows);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.get('/todos/:list/:userEmail/completed', async (req, res) => {
+    const { list, userEmail } = req.params;
+
+    try {
+        const completedToDos = await dbPool.query(`SELECT * FROM todos WHERE list_id = $1 AND user_email = $2  AND completed = 'true' ORDER BY date`, [list, userEmail]);
+        res.json(completedToDos.rows);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+app.get('/todos/:userEmail', async (req, res) => {
+    const { userEmail } = req.params;
+
+    try {
+        const allTimeToDos = await dbPool.query(`SELECT * FROM todos WHERE user_email = $1  AND completed = 'false' ORDER BY date`, [userEmail]);
+        res.json(allTimeToDos.rows);
     } catch (err) {
         console.error(err);
     }
@@ -84,7 +117,6 @@ app.put('/lists/:list', async (req, res) => {
     const { title, user_email, date } = req.body;
     try {
         const updatedList = await dbPool.query('UPDATE lists SET title = $1, user_email = $2, date = $3 WHERE id = $4', [title, user_email, date, list])
-        console.log('Updated List', updatedList);
         res.json(updatedList);
     } catch (err) {
         console.error(err);
@@ -92,7 +124,6 @@ app.put('/lists/:list', async (req, res) => {
 })
 
 app.put('/update', async (req, res) => {
-    // const { id } = req.params;
     const { user_name, email } = req.body;
     try {
         const updateToDo = await dbPool.query('UPDATE users SET user_name = $1 WHERE email = $2', [user_name, email]);
@@ -144,13 +175,10 @@ app.post('/signup', async (req, res) => {
     const { email, password, userName } = req.body;
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(password, salt);
-    console.log('body', req.body);
     try {
         const signUp = await dbPool.query(`INSERT INTO users (email, hashed_password, user_name) VALUES($1, $2, $3)`, [email, hashedPassword, userName])
 
         const token = jwt.sign({ email }, 'secret', { expiresIn: '1hr' })
-        console.log('Sign Up', signUp);
-        console.log('user name', userName);
         res.json({ email, token, userName });
     } catch (err) {
         console.error(err);
@@ -170,7 +198,6 @@ app.post('/login', async (req, res) => {
         const token = jwt.sign({ email }, 'secret', { expiresIn: '1hr' });
 
         if (success) {
-            console.log('Users', users.rows);
             res.json({ 'email': users.rows[0].email, token, 'userName': users.rows[0].user_name, })
         } else {
             res.json({ detail: 'Login failed' })

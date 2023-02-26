@@ -61,7 +61,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            fetchData(listId, cookies.Email);
+            fetchData(list, cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
