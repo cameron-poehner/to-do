@@ -7,15 +7,14 @@ interface ButtonProps {
     title?: string
     variant?: variant
     tabIndex?: any
+    style?: any
 }
 
 
-const Button: React.FC<ButtonProps> = ({ onClick, title, variant, tabIndex }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, title, variant, tabIndex, style }) => {
 
     return (
-        <StyledButtonContainer>
-            <StyledButton tabIndex={tabIndex} variant={variant} onClick={onClick}>{title}</StyledButton>
-        </StyledButtonContainer>
+        <StyledButton style={style} tabIndex={tabIndex} variant={variant} onClick={onClick}>{title}</StyledButton>
     )
 }
 

@@ -1,18 +1,23 @@
 import React from 'react';
 import { StyledListViewerContainer } from './styles';
 import ListViewerItem from '../ListViewerItem';
-import useStore from '../../store';
+
+interface List {
+    date: Date
+    id: string
+    title: string
+    user_email: string
+}
 
 interface ListViewerProps {
-    lists?: any
+    lists?: List[]
 }
 
 const ListViewer: React.FC<ListViewerProps> = ({ lists }) => {
-    const testLists = useStore(state => state.lists);
 
     return (
         <StyledListViewerContainer>
-            {testLists?.map((list: any) => <ListViewerItem key={list.id} list={list} />)}
+            {lists?.map((list: any) => <ListViewerItem key={list.id} list={list} />)}
         </StyledListViewerContainer>
     );
 };

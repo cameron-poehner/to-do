@@ -93,8 +93,9 @@ app.put('/lists/:list', async (req, res) => {
 
 app.put('/update', async (req, res) => {
     // const { id } = req.params;
+    const { user_name, email } = req.body;
     try {
-        const updateToDo = await dbPool.query('ALTER TABLE lists ADD date VARCHAR(300)');
+        const updateToDo = await dbPool.query('UPDATE users SET user_name = $1 WHERE email = $2', [user_name, email]);
 
         res.json(updateToDo);
     } catch (err) {
@@ -140,15 +141,17 @@ app.delete('/lists/:list/:userEmail', async (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, userName } = req.body;
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(password, salt);
+    console.log('body', req.body);
     try {
-        const signUp = await dbPool.query(`INSERT INTO users (email, hashed_password) VALUES($1, $2)`, [email, hashedPassword])
+        const signUp = await dbPool.query(`INSERT INTO users (email, hashed_password, user_name) VALUES($1, $2, $3)`, [email, hashedPassword, userName])
 
         const token = jwt.sign({ email }, 'secret', { expiresIn: '1hr' })
-
-        res.json({ email, token });
+        console.log('Sign Up', signUp);
+        console.log('user name', userName);
+        res.json({ email, token, userName });
     } catch (err) {
         console.error(err);
         if (err) {
@@ -167,7 +170,8 @@ app.post('/login', async (req, res) => {
         const token = jwt.sign({ email }, 'secret', { expiresIn: '1hr' });
 
         if (success) {
-            res.json({ 'email': users.rows[0].email, token })
+            console.log('Users', users.rows);
+            res.json({ 'email': users.rows[0].email, token, 'userName': users.rows[0].user_name, })
         } else {
             res.json({ detail: 'Login failed' })
         }

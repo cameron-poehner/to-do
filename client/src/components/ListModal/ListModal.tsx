@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState, SyntheticEvent, KeyboardEvent } from 'react';
 import {
     StyledOverlay,
     StyledModal,
@@ -12,9 +12,13 @@ import Button from '../Button';
 import { useCookies } from 'react-cookie';
 import useStore from '../../store';
 
-const ListModal: React.FC<any> = ({ setShowModal }) => {
+interface ListModalProps {
+    setShowModal: (value: boolean) => void
+}
+
+const ListModal: React.FC<ListModalProps> = ({ setShowModal }) => {
     const [title, setTitle] = useState('');
-    const [cookies, setCookie, removeCookie] = useCookies();
+    const [cookies] = useCookies();
     const fetchToDoLists = useStore(state => state.fetchLists);
 
     const createList = async (event: SyntheticEvent) => {
@@ -44,12 +48,36 @@ const ListModal: React.FC<any> = ({ setShowModal }) => {
         setTitle(event.target.value);
     };
 
-    const handleClick = (event: SyntheticEvent) => {
+    const handleClick = () => {
         setShowModal(false);
     }
 
-    const stopProp = (event: any) => {
+    const stopProp = (event: SyntheticEvent) => {
         event.stopPropagation();
+    }
+
+    const handleKeyDown = async (event: KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            const body = {
+                title: title,
+                user_email: cookies.Email,
+                date: new Date(),
+            }
+
+            try {
+                await fetch(`${process.env.REACT_APP_SERVER_URL}/lists`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+                fetchToDoLists(cookies.Email);
+                setShowModal(false);
+            } catch (err) {
+                console.error(err);
+            }
+        }
     }
 
     return (
@@ -67,6 +95,7 @@ const ListModal: React.FC<any> = ({ setShowModal }) => {
                         name='title'
                         value={title}
                         onChange={handleChange}
+                        onKeyDown={handleKeyDown}
                         variant='standard'
                         id='title'
                     />

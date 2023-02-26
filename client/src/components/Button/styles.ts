@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 export const StyledButtonContainer = styled('div')(({ theme }) => ({
     margin: 0,
     padding: 0,
+    justifyContent: 'flex-start',
 }))
 
 export const StyledButton = styled(Button, {
@@ -14,6 +15,7 @@ export const StyledButton = styled(Button, {
     (({ theme, variant }) => ({
         margin: '5px 0px 5px 0px',
         backgroundColor: variant === 'contained' ? theme.palette.secondary.dark : 'none',
+        marginLeft: 0,
         color: theme.palette.secondary.contrastText,
         '&:hover': {
             backgroundColor: theme.palette.primary.light,

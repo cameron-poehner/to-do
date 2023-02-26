@@ -10,7 +10,7 @@ export const StyledNav = styled('nav')(({ theme }) => ({
     zIndex: 10,
     [theme.breakpoints.down('md')]: {
         justifyContent: 'center'
-    }
+    },
 }));
 
 export const StyledLinkContainer = styled('div')(({ theme }) => ({
@@ -18,7 +18,13 @@ export const StyledLinkContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'baseline',
-}))
+    [theme.breakpoints.down('md')]: {
+        width: '60%'
+    },
+    [theme.breakpoints.down('xs')]: {
+        width: '70%'
+    },
+}));
 
 export const StyledLink = styled(Link)(({ theme }) => ({
     color: 'black',
@@ -28,4 +34,4 @@ export const StyledLink = styled(Link)(({ theme }) => ({
         transition: 'color, text-decoration 4s ease-in-out',
         textDecoration: 'underline',
     }
-}))
+}));

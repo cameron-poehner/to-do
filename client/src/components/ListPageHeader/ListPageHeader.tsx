@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { StyledContainer } from './styles';
+import { StyledContainer, StyledListHeader } from './styles';
 import Button from '../Button';
-import useStore from '../../store';
 import ListModal from '../ListModal';
 
-const ListPageHeader: React.FC<any> = ({ user }) => {
-    const setMode = useStore(state => state.setMode);
+interface ListPageHeaderProps {
+    user: string
+}
+
+const ListPageHeader: React.FC<ListPageHeaderProps> = ({ user }) => {
     const [showModal, setShowModal] = useState(false);
 
     const addNew = () => {
-        // fetchData(cookies.Email);
         setShowModal(true);
-        setMode('create');
     }
 
     return (
         <StyledContainer>
-            <h1>
+            <StyledListHeader>
                 {user}'s Lists
-            </h1>
+            </StyledListHeader>
             <Button
                 onClick={addNew}
                 title="ADD NEW"

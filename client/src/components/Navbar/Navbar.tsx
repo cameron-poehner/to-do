@@ -10,6 +10,7 @@ const Navbar = () => {
     const signOut = () => {
         removeCookie('Email');
         removeCookie('AuthToken');
+        removeCookie('UserName');
     }
 
     return (

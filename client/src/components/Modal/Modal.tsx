@@ -11,6 +11,7 @@ import { TextField, InputLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useCookies } from 'react-cookie';
 import useStore, { toDo } from '../../store';
+import { useParams } from 'react-router-dom';
 
 interface ModalProps {
     task: any
@@ -18,13 +19,14 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
+    const { list } = useParams();
     const fetchData = useStore(state => state.fetchToDos);
     const listId = useStore(state => state.listId);
     const mode = useStore(state => state.mode);
     const [cookies] = useCookies();
     const editMode = mode === 'edit' ? true : false;
 
-    console.log('Modal Task', task);
+    console.log('List', list);
 
 
     const [data, setData] = useState<any>({
@@ -33,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
         completed: editMode ? true : false,
         date: editMode ? task?.date : new Date(),
         notes: editMode ? task?.notes : 'test-notes',
-        list_id: editMode ? task?.list_id : listId,
+        list_id: editMode ? task?.list_id : list,
     })
 
     const postData = async (event: SyntheticEvent) => {
@@ -44,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            fetchData(listId, cookies.Email);
+            fetchData(list, cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);
