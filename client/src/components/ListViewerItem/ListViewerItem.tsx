@@ -33,10 +33,12 @@ const ListViewerItem: React.FC<ListViewerItemProps> = ({ list }) => {
     const [listTitle, setListTitle] = useState<string>(list.title);
     const fetchLists = useStore(state => state.fetchLists);
     const setListId = useStore(state => state.setListId);
+    const setListName = useStore(state => state.setListTitle);
     const [toDos, setToDos] = useState<List[]>([]);
 
     const handleClick = () => {
         setListId(list.id);
+        setListName(list.title);
     }
 
     const getListLength = useCallback(async (): Promise<ToDoList[] | undefined> => {

@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import Button from '../Button';
 import Modal from '../Modal';
-import { StyledListItem, StyledButtonContainer, StyledLink } from './styles';
+import { StyledListItem, StyledButtonContainer } from './styles';
 import useStore from '../../store';
-import { useCookies } from 'react-cookie';
 
 interface ListItemProps {
     task: any
@@ -11,20 +10,15 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ task }) => {
     const [showModal, setShowModal] = useState(false);
-    const fetchData = useStore(state => state.fetchToDos);
     const setMode = useStore(state => state.setMode);
     const setListId = useStore(state => state.setListId);
-    const [cookies] = useCookies();
-    const view = 'list';
 
     const editTodo = () => {
         setMode('edit');
         setShowModal(true);
-        console.log('Task', task);
     }
 
     const handleClick = (event: any) => {
-        // event.preventDefault();
         setListId(task.id);
     }
 
@@ -35,7 +29,6 @@ const ListItem: React.FC<ListItemProps> = ({ task }) => {
             await fetch(`${process.env.REACT_APP_SERVER_URL}/todos/${task.id}`, {
                 method: 'DELETE',
             });
-            // fetchData(cookies.Email);
             setShowModal(false);
         } catch (err) {
             console.error(err);

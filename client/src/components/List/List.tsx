@@ -1,20 +1,21 @@
+import { useState } from 'react';
 import { StyledList } from './styles';
 import ListHeader from '../ListHeader';
 import ListItem from '../ListItem';
+import ListStats from '../ListStats';
 import useStore from '../../store';
-import { useCookies } from 'react-cookie';
-import { useMatch } from 'react-router-dom';
 
-type option = 'todos' | 'list'
-
-const List: any = ({ list }: any) => {
+const List = () => {
+    const [showCompleted, setShowCompleted] = useState(false);
     const toDos = useStore(state => state.toDos);
-    const [cookies, setCookie, removeCookie] = useCookies();
+    const completedToDos = useStore(state => state.completedToDos);
 
     return (
         <StyledList>
-            <ListHeader listname={`${cookies.Email}'s To-do Lists`} />
+            <ListHeader />
+            <ListStats showCompleted={showCompleted} setShowCompleted={setShowCompleted} />
             {toDos?.map((task: any) => <ListItem key={task.id} task={task} />)}
+            {showCompleted && completedToDos?.map((task: any) => <ListItem key={task.id} task={task} />)}
         </StyledList>
     )
 };

@@ -21,20 +21,16 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
     const { list } = useParams();
     const fetchData = useStore(state => state.fetchToDos);
-    const listId = useStore(state => state.listId);
     const mode = useStore(state => state.mode);
     const [cookies] = useCookies();
     const editMode = mode === 'edit' ? true : false;
-
-    console.log('List', list);
-
 
     const [data, setData] = useState<any>({
         user_email: editMode ? task?.user_email : cookies.Email,
         title: editMode ? task?.title : '',
         completed: editMode ? true : false,
         date: editMode ? task?.date : new Date(),
-        notes: editMode ? task?.notes : 'test-notes',
+        notes: editMode ? task?.notes : '',
         list_id: editMode ? task?.list_id : list,
     })
 
@@ -68,6 +64,17 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
         }
     };
 
+    const handleKeyDown = (event: any) => {
+        console.log('key', event);
+        if (event.key === 'Enter') {
+            console.log('You Hit Enter')
+            // To-do: Make form tab through when there is a value for current field and the user hits enter
+            // event.key = 'Tab';
+            // event.code = 'Tab';
+            // console.log('event', event);
+        }
+    }
+
     const handleChange = (event: any) => {
         event.preventDefault();
         event.stopPropagation();
@@ -94,15 +101,25 @@ const Modal: React.FC<ModalProps> = ({ task, setShowModal }) => {
                     <StyledCloseButton variant='text' onClick={handleClick}><CloseIcon sx={{ color: 'black' }} /></StyledCloseButton>
                 </StyledFormTitleContainer>
                 <StyledForm>
-                    <InputLabel htmlFor='title'></InputLabel>
+                    <InputLabel htmlFor='title'>Title</InputLabel>
                     <TextField
                         required
-                        placeholder='Your task goes here'
+                        placeholder='To-do or not to-do...'
                         name='title'
                         value={data.title}
                         onChange={handleChange}
+                        onKeyDown={handleKeyDown}
                         variant='standard'
                         id='title'
+                    />
+                    <InputLabel htmlFor='notes'>Notes</InputLabel>
+                    <TextField
+                        placeholder='Noting to see here...'
+                        name='notes'
+                        value={data.notes}
+                        variant='standard'
+                        id='notes'
+                        onChange={handleChange}
                     />
                     <Button variant='contained' title='SUBMIT' onClick={editMode ? editData : postData} />
                 </StyledForm>

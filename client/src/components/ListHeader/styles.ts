@@ -6,7 +6,6 @@ export const StyledListHeader = styled('div')(({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexWrap: 'wrap',
-    borderBottom: '1px solid rgb(0 0 0 / 0.2)',
     '&>h1': {
         fontFamily: 'Arial',
         fontWeight: 400

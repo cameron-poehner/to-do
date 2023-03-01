@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Slider, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 export const StyledOverlay = styled('div')(({ theme }) => ({
     position: 'absolute',
@@ -37,10 +37,8 @@ export const StyledForm = styled('form')(({ theme }) => ({
     height: '40vh'
 }));
 
-export const StyledSlider = styled(Slider)(({ theme }) => ({
-    color: theme.palette.secondary.dark
-}))
-
 export const StyledCloseButton = styled(Button)(({ theme }) => ({
     background: 'none',
+    margin: 0,
+    padding: 0,
 }))
