@@ -29,6 +29,7 @@ interface State {
     fetchList: (list_id: string, user_email: string) => void
     fetchToDos: (list_id?: string, user_email?: string) => void
     fetchCompletedToDos: (list_id?: string, user_email?: string) => void
+    fetchListTitle: (list_id: string) => void
 }
 
 const useStore = create<State>()((set) => ({
@@ -101,6 +102,15 @@ const useStore = create<State>()((set) => ({
                 useStore.setState((state: any) => ({
                     ...state,
                     completedToDos,
+                })))
+    },
+    fetchListTitle: async (list_id: string): Promise<void> => {
+        await fetch(`${process.env.REACT_APP_SERVER_URL}/list/list_title/${list_id}`)
+            .then(res => res.json())
+            .then(listTitle =>
+                useStore.setState((state: any) => ({
+                    ...state,
+                    listTitle,
                 })))
     }
 }));

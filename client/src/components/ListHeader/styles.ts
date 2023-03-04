@@ -9,7 +9,8 @@ export const StyledListHeader = styled('div')(({ theme }) => ({
     '&>h1': {
         fontFamily: 'Arial',
         fontWeight: 400
-    }
+    },
+
 }))
 
 export const StyledButtonContainer = styled('div')(({ theme }) => ({

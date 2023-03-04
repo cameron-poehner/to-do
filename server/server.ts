@@ -77,6 +77,17 @@ app.get('/lists/:list/:userEmail', async (req, res) => {
     }
 });
 
+app.get('/list/list_title/:list_id', async (req, res) => {
+    const { list_id } = req.params;
+
+    try {
+        const getListTitle = await dbPool.query('SELECT title FROM lists WHERE id = $1', [list_id]);
+        res.json(getListTitle.rows[0].title);
+    } catch (err) {
+        console.error(err);
+    }
+})
+
 app.post('/lists', async (req, res) => {
     const id = uuidv4();
     const {

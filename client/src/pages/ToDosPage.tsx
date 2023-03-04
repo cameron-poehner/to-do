@@ -6,10 +6,10 @@ import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 
 // To-do: 
-// 1. Server: Fix Editing order like lists/Clean Up Code - ✅
-// 2. Implement Completed Query and related Component + logic for when to show (Button?) - ✅
-// 3. Update Header: username && add New Button (event handlers, form inputs to match options - notes, completed checkbox, etc.)
-// 4. Update List Items: Should have check box, disappear when completed, and show notes
+// 1. Fix List Title Persisting between re-renders
+// 2. Verify List Header and Add New Modal are Responsive/Accessible
+// 3. Update List Items: Should have check box, disappear when completed, and show notes
+// 4. Update Edit Modal: onKeyDown Handle (for Enter Key), Check Routes and checkbox to mark as completed if 'edit' mode = true
 // 5. Create component and implement logic to handle cases where no to-do's exist for current list
 // 6. Triple Check Modal Form scenarios (editing/creating, input events(key down) refetching data scenarios)
 // 7. Check Mobile Responsive Qualities
@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom';
 
 const ToDosPage = () => {
     const fetchCompletedToDos = useStore(state => state.fetchCompletedToDos);
+    const fetchListTitle = useStore(state => state.fetchListTitle);
     const { list } = useParams();
     const fetchToDoList = useStore(state => state.fetchToDos);
     const [cookies] = useCookies();
@@ -27,8 +28,9 @@ const ToDosPage = () => {
         if (list) {
             fetchToDoList(list, cookies.Email);
             fetchCompletedToDos(list, cookies.Email);
+            fetchListTitle(list);
         }
-    }, [fetchToDoList, fetchCompletedToDos, list, cookies.Email])
+    }, [fetchToDoList, fetchCompletedToDos, fetchListTitle, list, cookies.Email])
 
     return (
         <StyledPageContainer>
